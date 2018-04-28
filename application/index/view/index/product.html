@@ -1,0 +1,127 @@
+{extend name="./template/indexlayout.html"}
+{block name="product"}active{/block}
+{block name="css"}
+.rline{
+width:200px;
+height:1px;
+ background: -webkit-linear-gradient(left, #d9363a ,#fff); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(right, #d9363a, #fff); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(right, #d9363a, #fff); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to right, #d9363a , #fff); /* 标准的语法 */
+}
+.lline{
+
+width:200px;
+height:1px;
+ background: -webkit-linear-gradient(right, #d9363a ,#fff); /* Safari 5.1 - 6.0 */
+  background: -o-linear-gradient(left, #d9363a, #fff); /* Opera 11.1 - 12.0 */
+  background: -moz-linear-gradient(left, #d9363a, #fff); /* Firefox 3.6 - 15 */
+  background: linear-gradient(to left, #d9363a , #fff); /* 标准的语法 */
+
+}
+.line{
+
+width:100%;
+height:1px;
+ background: -webkit-radial-gradient(#b9e1e8 50%, #fff); /* Safari 5.1 - 6.0 */
+  background: -o-radial-gradient(#b9e1e8 50%, #fff); /* Opera 11.6 - 12.0 */
+  background: -moz-radial-gradient(#b9e1e8 50%, #fff); /* Firefox 3.6 - 15 */
+  background: radial-gradient(#b9e1e8 50%, #fff); /* 标准的语法 */
+
+}
+.ptext{
+padding-left:58px;
+}
+{/block}
+{block name="main"}
+<div style="width:100%;height:500px;">
+<img src="/static/images/banner2.png" style="width:100%;max-height:100%;" alt="" />
+</div>
+
+<div class="container">
+<div class="banner mb-3">
+<img src="/static/images/before.png" alt="" />
+</div>
+<div class="banner">
+<img src="/static/images/after.png" alt="" />
+</div>
+
+<div class=" mt-4 text-center d-flex justify-content-center align-items-center"> 
+	<div class="lline"></div>
+	<h3>三板斧产品功能简介</h3>
+	<div class="rline"></div>	
+</div>
+
+<div>
+<div class="media" >
+  <img class=" mr-3" src="/static/images/p1.png" alt="Generic placeholder image">
+  <div class="media-body align-self-center">
+     <dl>
+      <dt ><img class="mr-2" src="/static/images/p1-1.png" alt="" />免费注册，永久使用</dt>
+      <dd class="ptext">新用户注册即送1000积分 </dd>
+      <dd class="ptext">系统每日免费赠送积分</dd>
+     </dl>
+  </div>
+</div>
+<div class="line"></div>
+<div class="media" >
+  <div class="media-body align-self-center">
+     <dl>
+      <dt ><img class="mr-2" src="/static/images/p1-2.png" alt="" />发布真实流量任务</dt>
+      <dd class="ptext">完全人工搜索游览、安全、稳定、快速 </dd>
+      <dd class="ptext">支持发布多种流量类型</dd>
+     </dl>
+  </div>
+   <img class=" ml-3" src="/static/images/p2.png" alt="Generic placeholder image">
+</div>
+<div class="line"></div>
+<div class="media" >
+ <img class=" mr-3" src="/static/images/p3.png" alt="Generic placeholder image">
+  <div class="media-body align-self-center">
+     <dl>
+      <dt ><img class="mr-2" src="/static/images/p1-3.png" alt="" />精确控制任务执行</dt>
+      <dd class="ptext">自由设定每日访客数、停留时间 </dd>
+      <dd class="ptext">每个小时访客数等 </dd>
+     </dl>
+  </div>
+  
+</div>
+<div class="line"></div>
+
+<div class="media" >
+  <div class="media-body align-self-center">
+     <dl>
+      <dt ><img class="mr-2" src="/static/images/p1-4.png" alt="" />自定义发布方案</dt>
+      <dd class="ptext">自动保存发布方案，每日一键批量发布</dd>
+     </dl>
+  </div>
+   <img class=" ml-3" src="/static/images/p4.png" alt="Generic placeholder image">
+</div>
+<div class="line"></div>
+<div class="media" >
+ <img class=" mr-3" src="/static/images/p5.png" alt="Generic placeholder image">
+  <div class="media-body align-self-center">
+     <dl>
+      <dt ><img class="mr-2" src="/static/images/p1-5.png" alt="" />全面分析店铺流量</dt>
+      <dd class="ptext">支持淘宝官方生意参谋 </dd>
+      <dd class="ptext">流量分析一目了然 </dd>
+     </dl>
+  </div>
+  
+</div>
+<div class="line"></div>
+<div class="media" >
+  <div class="media-body align-self-center">
+     <dl>
+      <dt ><img class="mr-2" src="/static/images/p1-6.png" alt="" />代理三板斧推广系统</dt>
+      <dd class="ptext">加入代理三板斧系统，获取高额推广佣金 </dd>
+     </dl>
+  </div>
+   <img class=" ml-3" src="/static/images/p6.png" alt="Generic placeholder image">
+</div>
+</div>
+
+
+
+</div>
+{/block}
