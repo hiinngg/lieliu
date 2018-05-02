@@ -4,6 +4,7 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import './scss/element-variables.scss';
 import setTaskCount from './js/setTaskCount.js';
+
 import App from './App.vue'
 
 Vue.config.productionTip = false

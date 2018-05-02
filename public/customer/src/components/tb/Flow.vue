@@ -42,51 +42,10 @@
     <el-form-item label="链接">
     <el-input v-model="form.name" placeholder="输入商品链接（或淘口令）" ></el-input>
   </el-form-item>
-<div v-for="(k,index) in keywordlist"   v-if="radio4!='view'"  :key="index" >
-  <el-form-item label="搜素关键词" class="cf" >
-  <el-row :gutter="10">
-   <el-col :md="{span:11}"   >
-    <el-input placeholder="请输入关键词"  v-model="k.keyword"></el-input>
-   </el-col>
-     <el-col  :md="{span:6}"    > 
-     <el-input-number  v-model="k.num" @change="handleChange" :min="1" label="描述文字"></el-input-number>
-     </el-col>
-     <el-col  :md="{span:2}"   > 
-     <el-checkbox v-model="k.periodShow">时段</el-checkbox>
-    </el-col> 
-    <el-col :md="{span:3}"  >
-      <el-button  v-if="keywordlist.length>1" class="el-icon-minus" @click="dec(index)" size="mini"  type="danger" circle ></el-button>
-     <el-button  class="el-icon-plus"  @click="inc" type="success" circle  size="mini" ></el-button>
-     </el-col>
+<!-- <div v-for="(k,index) in keywordlist"   v-if="radio4!='view'"  :key="index" > -->
+  <Task :keywordlist="keywordlist"></Task>
 
-
-    </el-row>
-
-
-
-    <div  v-if="k.periodShow"   class="cf" style="width:100%;padding:15px 80px;box-sizing:border-box;line-height:2;">
-    <el-row>
-
-       <el-col :md="{span: 2}" :xs="{span:4}" v-for="n in 24" :key="n">
-           <div class="item">
-             <div class="header">{{n-1}}:00</div>
-             <div>0.0%</div>
-             <el-input v-model="k.period[n-1]" class="noborder" size="small"   ></el-input>
-           </div>
-       </el-col>
-
-    </el-row>
-   <el-radio-group v-model="k.periodType" size="small" style="float:right;"  @change="periodType($event,index)"  >
-      <el-radio-button label="today">当天完成</el-radio-button>
-      <el-radio-button label="curve">模拟流量</el-radio-button>
-      <el-radio-button label="self">自定义</el-radio-button>
-  </el-radio-group>
-    </div>
-  
-  </el-form-item>
-</div>
-
-<template v-else>
+<template >
 <el-form-item label="每日任务数量">
     <el-input-number v-model="viewnum" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
 </el-form-item>
@@ -124,6 +83,7 @@
 </template>
 
 <script type="text/javascript">
+import Task from '../Task.vue'
 export default {
     data() {
       return {
@@ -174,12 +134,8 @@ export default {
            ]
       }
     },
-     computed: {
-    // 计算属性的 getter
-      period: function () {
-      // `this` 指向 vm 实例
-      return  this.setTaskCount(100,"today")
-     }
+    components:{
+     Task
     },
     methods: {
     
@@ -230,6 +186,7 @@ border-bottom:1px solid #eee;
 .noborder input{
   border:0;
   text-align: center;
+  padding:0;
 }
 .cf:before,.cf:after { content:""; display:table; } .cf:after { clear:both; }
 
