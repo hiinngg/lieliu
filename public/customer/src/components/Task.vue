@@ -11,8 +11,8 @@
      <el-checkbox v-model="periodShow">时段</el-checkbox>
     </el-col> 
     <el-col :md="{span:3}"  >
-      <el-button  v-if="keywordlist.length>1" class="el-icon-minus" @click="dec" size="mini"  type="danger" circle ></el-button>
-     <el-button  class="el-icon-plus"  @click="inc" type="success" circle  size="mini" ></el-button>
+      <el-button  v-if="keywordlist.length>1" class="el-icon-minus" @click="taskdec(key)" size="mini"  type="danger" circle ></el-button>
+     <el-button  class="el-icon-plus"  @click="taskinc" type="success" circle  size="mini" ></el-button>
      </el-col>
 
 
@@ -25,7 +25,7 @@
            <div class="item">
              <div class="header">{{n-1}}:00</div>
              <div>{{percent[n-1]}}%</div>
-             <el-input v-model.number.lazy="period[n-1]"   class="noborder" size="small" @change="myperiod($event,n)"  ></el-input>
+             <el-input v-model.number.lazy="period[n-1]" type="number"  minlength=1 class="noborder" size="small" @change="myperiod($event,n)"  ></el-input>
            </div>
        </el-col>
 
@@ -49,11 +49,12 @@ export default {
         periodType:"today",
         periodShow:false,
         period:this.setTaskCount(100,"today"),
-        percent:[]
+        percent:[],
+        weight:[]
       }
    
   },
-props:['keywordlist'],
+props:['keywordlist','key'],
 created:function(){
   this.percentChange()
 },
@@ -72,25 +73,35 @@ watch:{
   }
 },
 methods:{
-   myperiod:function(e,n){
+   myperiod:function(e,n){    //用户输入时间段时触发
+     console.log(typeof e)
     var len = this.period.length;
     var num = 0;
       for(var i=0;i<len;i++){
           num += this.period[i]
 
       }
-     this.num = num
-    // this.weight = this.percent;
      this.periodType = 'self'
-     this.percentChange()
+     this.weight = this.percentChange();
+     this.num = num
+   
+
    },
    percentChange:function(){ //计算各时间段所占百分比
      var num  = this.num
       this.percent = this.period.map(function(v){
          return  Math.ceil(parseFloat(v/num) * 1000) / 10
      })
+     return this.percent;
 
-   }
+   },
+    taskdec:function(index){ //减少关键词
+      console.log(index)
+      },
+    taskinc:function(){  //增加关键词
+    console.log("123")
+       this.$emit('myinc')
+      }
 
 
 }
@@ -99,10 +110,3 @@ methods:{
 <style>
 
 </style>
-<!--   var  num = this.num;
-     var vm = this
-     var period = this.setTaskCount( this.num,this.periodType)
-     this.percent = period.map(function(v){
-         return  Math.ceil(parseFloat(v/num) * 1000) / 10
-     })
-    return  period; -->

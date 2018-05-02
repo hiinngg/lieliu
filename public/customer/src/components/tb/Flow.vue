@@ -42,9 +42,13 @@
     <el-form-item label="链接">
     <el-input v-model="form.name" placeholder="输入商品链接（或淘口令）" ></el-input>
   </el-form-item>
-<!-- <div v-for="(k,index) in keywordlist"   v-if="radio4!='view'"  :key="index" > -->
-  <Task :keywordlist="keywordlist"></Task>
 
+  <template v-for="k in keywordlist">
+  <Task :keywordlist="keywordlist"  v-on:myinc="inc"  :key="k"></Task>
+  </template>
+
+
+  
 <template >
 <el-form-item label="每日任务数量">
     <el-input-number v-model="viewnum" @change="handleChange" :min="1"  label="描述文字"></el-input-number>
@@ -103,17 +107,15 @@ export default {
            num:1,
            checked:false,
            viewnum:100,
-           keywordlist:[{
-               keyword:"",
-               num:100,
-               period:this.setTaskCount(100,"today") ,
-               periodShow:false,
-               periodType:"today"  // type today：当天完成　day：仅白天分配　curve：模拟曲线分配
-           }],
+           keywordlist:1,
            options:[
             {
               label:"1天",
               value:"1",
+            },
+                        {
+              label:"3天",
+              value:"3",
             },
                         {
               label:"7天",
@@ -157,14 +159,7 @@ export default {
         this.keywordlist.splice(index,1)
       },
       inc:function(){  //增加关键词
- 
-         this.keywordlist.push({
-               keyword:"",
-               num:100,
-               period:this.setTaskCount(100,"today") ,
-               periodShow:false,
-               periodType:"today"  // type today：当天完成　day：仅白天分配　curve：模拟曲线分配
-           })
+      this.keywordlist +=1;
       }
     }
   }
