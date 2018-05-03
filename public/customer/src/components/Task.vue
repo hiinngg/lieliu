@@ -5,13 +5,13 @@
     <el-input placeholder="请输入关键词"  v-model="keyword"></el-input>
    </el-col>
      <el-col  :md="{span:6}"    > 
-     <el-input-number  v-model="num" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+     <el-input-number  v-model.lazy="num" @change="handleChange" :min="1" label="描述文字"></el-input-number>
      </el-col>
      <el-col  :md="{span:2}"   > 
      <el-checkbox v-model="periodShow">时段</el-checkbox>
     </el-col> 
     <el-col :md="{span:3}"  >
-      <el-button  v-if="keywordlist.length>1" class="el-icon-minus" @click="taskdec(key)" size="mini"  type="danger" circle ></el-button>
+      <el-button  v-if="keywordlistLength>1" class="el-icon-minus" @click="taskdec(mykey)" size="mini"  type="danger" circle ></el-button>
      <el-button  class="el-icon-plus"  @click="taskinc" type="success" circle  size="mini" ></el-button>
      </el-col>
 
@@ -25,7 +25,7 @@
            <div class="item">
              <div class="header">{{n-1}}:00</div>
              <div>{{percent[n-1]}}%</div>
-             <el-input v-model.number.lazy="period[n-1]" type="number"  minlength=1 class="noborder" size="small" @change="myperiod($event,n)"  ></el-input>
+             <el-input v-model.number.lazy="period[n-1]" type="number"  min=0 class="noborder" size="small" @change="myperiod($event,n)"  ></el-input>
            </div>
        </el-col>
 
@@ -50,22 +50,26 @@ export default {
         periodShow:false,
         period:this.setTaskCount(100,"today"),
         percent:[],
-        weight:[]
+        weight:false
       }
    
   },
-props:['keywordlist','key'],
+props:['keywordlistLength','mykey'],
 created:function(){
   this.percentChange()
 },
 watch:{
-  num:function(newnum){
- 
-    this.period  = this.setTaskCount(newnum,"curve",this.weight)
+  num:function(newnum,oldnum){
+ if(!newnum||newnum==""||newnum==0){
+  //防止用户不正当输入
+  return this.num = 1;
+ }
+    this.period  = this.setTaskCount(newnum,this.periodType,this.weight)
     this.percentChange()
+    this.$emit('mynum',newnum-oldnum)
   },
   periodType:function(p){
-    if(p!="self"){
+    if(p&&p!==""){
      this.period =  this.setTaskCount(this.num,p)
      this.percentChange()
     }
@@ -74,32 +78,40 @@ watch:{
 },
 methods:{
    myperiod:function(e,n){    //用户输入时间段时触发
-     console.log(typeof e)
+     if(e==""||e=='0'||e==0){  
+       //防止用户不正当输入
+         this.period[n-1]=0
+     }
+    
     var len = this.period.length;
     var num = 0;
       for(var i=0;i<len;i++){
           num += this.period[i]
 
       }
-     this.periodType = 'self'
+     this.periodType = ''
      this.weight = this.percentChange();
      this.num = num
    
 
    },
+
+
    percentChange:function(){ //计算各时间段所占百分比
      var num  = this.num
       this.percent = this.period.map(function(v){
          return  Math.ceil(parseFloat(v/num) * 1000) / 10
      })
+
      return this.percent;
 
    },
     taskdec:function(index){ //减少关键词
-      console.log(index)
-      },
+       this.$emit('mynum',(0-this.num))
+       this.$emit('mydec',index)
+     },
     taskinc:function(){  //增加关键词
-    console.log("123")
+       this.$emit('mynum',this.num)
        this.$emit('myinc')
       }
 
@@ -108,5 +120,11 @@ methods:{
 }
 </script>
 <style>
-
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+}
+input[type="number"]{
+  -moz-appearance: textfield;
+}
 </style>
