@@ -4,12 +4,12 @@ import 'element-ui/lib/theme-chalk/index.css';
 import 'element-ui/lib/theme-chalk/display.css';
 import './scss/element-variables.scss';
 import setTaskCount from './js/setTaskCount.js';
-
+import VueResource  from 'vue-resource';
 import App from './App.vue'
 
 Vue.config.productionTip = false
 Vue.use(ElementUI);
-Vue.use(setTaskCount);
+Vue.use(VueResource);
 
 new Vue({
   render: h => h(App)

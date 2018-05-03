@@ -1,5 +1,8 @@
 <template>
-    <el-form-item label="搜素关键词" class="cf" >
+
+
+
+<el-form-item label="搜素关键词" class="cf" >
   <el-row :gutter="10">
    <el-col :md="{span:11}"   >
     <el-input placeholder="请输入关键词"  v-model="keyword"></el-input>
@@ -37,7 +40,25 @@
   </el-radio-group>
     </div>
   
+
+
+
+<el-dialog
+  title="提示"
+  :visible.sync="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
+  <span>{{dialogMsg}}</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+</el-dialog>
+
+
   </el-form-item>
+
+   
+  
 </template>
 
 <script>
@@ -50,7 +71,9 @@ export default {
         periodShow:false,
         period:this.setTaskCount(100,"today"),
         percent:[],
-        weight:false
+        weight:false,
+        dialogVisible:false,
+        dialogMsg:"发生错误了，请重试"
       }
    
   },
@@ -111,9 +134,21 @@ methods:{
        this.$emit('mydec',index)
      },
     taskinc:function(){  //增加关键词
-       this.$emit('mynum',this.num)
-       this.$emit('myinc')
-      }
+
+  if(this.keywordlistLength==10){
+        this.showInfo("最多只能设置10个关键词")
+        return false;
+    }
+         this.$emit('mynum',this.num)
+         this.$emit('myinc')
+       
+      
+      },
+     showInfo:function(msg){
+       this.dialogVisible = true;
+       this.dialogMsg = msg
+
+    }
 
 
 }

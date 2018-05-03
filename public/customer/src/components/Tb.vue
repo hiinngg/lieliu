@@ -4,7 +4,7 @@
 
   <el-tabs  v-model="activeName" @tab-click="handleClick">
     <el-tab-pane label="流量任务" name="first">
-     <Flow  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Flow>
+     <Flow  ref="flow"  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Flow>
     </el-tab-pane>
     <el-tab-pane label="收藏任务" name="second">收藏任务</el-tab-pane>
     <el-tab-pane label="加购任务" name="third">加购任务</el-tab-pane>
@@ -13,7 +13,7 @@
  
 	<el-card class="box-card cf" style="margin-top:30px;">
 	  <p>任务耗时：<span class="num">{{totaltime}}</span>秒&nbsp;&nbsp;单次消费：<span class="num">{{perint}}</span>积分&nbsp;&nbsp;合计消费：<span class="num">{{totalint}}</span>积分</p>
-	  <el-button style="float:right;" type="danger">发布任务</el-button>
+	  <el-button  @click="submit" style="float:right;" type="danger">发布任务</el-button>
 	</el-card>
 </el-main>
 </template>
@@ -48,9 +48,9 @@ export default {
           return Math.round((this.totaltime/5)*2.5*0.7); 
        }
     },
-/*    totalint:function(){
-       return  this.totaltask*this.totalint;
-    }*/
+   totalint:function(){
+       return  this.totaltask*this.perint;
+    }
   },
 
   methods:{
@@ -65,9 +65,19 @@ export default {
      },
      changeint:function(num){
         this.totaltask= num
+     },
+     submit:function(){
+      var res =  this.$refs.flow.submit()
+   this.$http.post("{:url('index/index/index')}", res).then(response => {
+    console.log("121111111")
+
+  }, response => {
+    // error callback
+  });
+}
      }
 
-  }
+  
 
 }
 

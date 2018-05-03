@@ -29,21 +29,21 @@
   </el-form-item>
 
   <el-form-item label="任务名称">
-    <el-input v-model="form.name" placeholder="输入任务名称" ></el-input>
+    <el-input v-model="taskname" placeholder="输入任务名称(可不填)" ></el-input>
   </el-form-item>
     <el-form-item label="链接">
-    <el-input v-model="form.name" placeholder="输入商品链接（或淘口令）" ></el-input>
+    <el-input v-model="link" placeholder="输入商品链接（或淘口令）" ></el-input>
   </el-form-item>
 
 
 
 
-  <template v-if="radio4!='view'"   >
+<template v-if="radio4!='view'"   >
   <Task     ref="task"  v-for="(k,index) in keywordlist"  :keywordlistLength="keywordlist.length" v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  :key="k"  :mykey="index"></Task>
   </template>
 <template v-else>
 <el-form-item label="每日任务数量">
-    <el-input-number v-model="viewnum"  :min="1"  label="描述文字"></el-input-number>
+    <el-input-number v-model="totalnum"  :min="1"  label="描述文字"></el-input-number>
 </el-form-item>
 </template>
 
@@ -73,7 +73,25 @@
   
 </template>
 
+
+
+<el-dialog
+  title="提示"
+  :visible.sync="dialogVisible"
+  width="30%"
+  :before-close="handleClose">
+  <span>{{dialogMsg}}</span>
+  <span slot="footer" class="dialog-footer">
+    <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
+  </span>
+</el-dialog>
+
+
 </el-form>
+
+
+
+
 
 </template>
 
@@ -82,19 +100,11 @@ import Task from '../Task.vue'
 export default {
     data() {
       return {
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: '',
-          time:false
-        },
+           form:{},
+           taskname:"",     //任务名称，可不填
+           link:"",         //商品链接 必填
            radio4: 'app',   //任务类型
-           totalnum:100,      //每天任务量
+           totalnum:100,    //每天任务量
            date:[Date.now(),Date.now()],         //日期
            day:1,           //天数
            checked:false,   //是否查看宝贝评价
@@ -146,7 +156,9 @@ export default {
                 return false;
                }
             }
-           }
+           },
+           dialogVisible:false,
+           dialogMsg:"发生错误了，请重试"
       }
     },
     props:[],
@@ -162,21 +174,51 @@ export default {
     watch:{
      mydeep:function(d){
       if(d!=0){
-          this.$emit("adddeeptime",this.deeptime)
+          this.$emit("adddeeptime",this.truedeeptime())
       }else{
          this.$emit("adddeeptime",0)
       }
      },
-     totaltask:function(){
-         this.$emit("addviewtime",time)
+     totaltask:function(value){
+         this.$emit("changeint",value)
+     },
+     radio4:function(newr,oldr){
+
      }
     },
 
     methods: {
     
-      onSubmit() {
-     
-
+      submit() {
+       var tasks = this.$refs.task;
+       var len = tasks.length;
+       var keywords = []
+        if(this.link==""){
+          this.showInfo("请输入商品链接")
+          return;
+        }
+        for(var i=0;i<len;i++){
+          if(tasks[i].keyword==""){
+          this.showInfo("请输入搜索的关键字")
+          return;
+          }
+          keywords.push({
+            keyword:tasks[i].keyword,
+            num:tasks[i].num,
+            period:tasks[i].period
+          })
+        }
+        return {
+         link:this.link,
+         date:this.date[0],
+         keywords:keywords,
+         deeptime:this.deeptime,     
+         viewtime:this.viewtime,     
+         mydeep:this.mydeep, 
+         radio4:this.radio4,
+         checked:this.checked,
+         taskname:this.taskname
+        }
       },
       mynum(num){
          this.totalnum +=num;
@@ -187,16 +229,19 @@ export default {
       },
       mydeeptime(time){
         if(this.mydeep!="0"){
-          this.$emit("adddeeptime",time)
+          this.$emit("adddeeptime",this.truedeeptime())
         }
-        
       },
       changetype(type){
-          this.$emit("changetype",type)
+        if(type!="view"){
+          this.rnum()
+        }
+         this.$emit("changetype",type)
         
       },
       datechange(date){     //选择日期后触发计算天数  date:array (min,max)
-        var  dateSpan = Date.parse(date[1]) - Date.parse(date[0]);
+      console.log(date)
+        var  dateSpan = date[1] - date[0];
        // var  dateSpan = Math.abs(dateSpan);
         var  iDays = Math.floor(dateSpan / (24 * 3600 * 1000));
         this.day = iDays+1      //当天也算一天
@@ -205,8 +250,46 @@ export default {
         this.keywordlist.splice(index,1)
       },
       inc:function(){  //增加关键词
+
        this.keywordlist.push(this.keywordlist.length)
+       return true;
       },
+      truedeeptime:function(){  //计算商品深度真正时间  具体请看data的deep数组
+
+          switch(this.mydeep){
+            case "1":
+                 return Math.ceil((1/2)*this.deeptime);
+            case "2":
+                 return Math.ceil((2/2)*this.deeptime);
+            case "3":
+                 return Math.ceil((3/2)*this.deeptime);       
+            case "4":
+                 return Math.ceil(1*this.deeptime); 
+            case "5":
+                 return Math.ceil(2*this.deeptime); 
+            case "6":
+                 return Math.ceil(3*this.deeptime);                                                
+          }
+
+      },
+    showInfo:function(msg){
+       this.dialogVisible = true;
+       this.dialogMsg = msg
+
+    },
+    rnum:function(){   //重新统计各关键词的数量
+      var list =  this.$refs.task
+  
+      var num =0;
+      var len = list.length
+
+      for(var i=0;i<len;i++){
+        num += list[i].num
+      }
+  
+      this.totalnum = num 
+    }
+      
     }
   }
 

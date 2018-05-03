@@ -9,6 +9,11 @@ class Index extends Controller
     // 首页
     public function index()
     {
+        if($this->request->is_Ajax()){
+           $post = $this->request->post();
+           var_dump($post);
+
+        }
         return $this->fetch();
     }
 
