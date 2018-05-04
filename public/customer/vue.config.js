@@ -70,7 +70,12 @@ module.exports = {
     https: false,
     hotOnly: false,
     // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
-    proxy: null, // string | Object
+    proxy: {
+      '/addorder': {
+        target: 'http://www.lieliu1.com/customer/index/addorder',
+        changeOrigin: true
+      },
+    },
     before: app => {}
   },
 

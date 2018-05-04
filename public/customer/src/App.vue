@@ -1,4 +1,5 @@
  /* eslint-disable */
+
 <template>
 <div id="#app" >
 	
@@ -38,7 +39,7 @@
 
       <el-menu-item index="1">
         <i class="el-icon-menu"></i>
-        <span slot="title">淘宝任务</span>
+        <router-link to="/Tb" slot="title">淘宝任务</router-link>
       </el-menu-item>
   
       <el-menu-item index="2">
@@ -51,7 +52,7 @@
       </el-menu-item>
       <el-menu-item index="4">
         <i class="el-icon-setting"></i>
-        <span slot="title">业务查询</span>
+        <router-link to="/Order" slot="title">业务查询</router-link>
       </el-menu-item>
     </el-menu>
       </el-col>
@@ -77,6 +78,8 @@ import Order from './components/Order.vue'
 
 
 
+
+
 export default {
   name: 'app',
   data:function(){
@@ -85,6 +88,7 @@ export default {
          currentView:Tb
   }
   },
+
   components: {
     HelloWorld,
     Order,
@@ -93,7 +97,7 @@ export default {
   },
   methods:{
    myselect:function(e){
-    switch(e){
+   /* switch(e){
     case "1":
       this.currentView=Tb;
       break;
@@ -101,7 +105,7 @@ export default {
       this.currentView=Order;
       break;
     
-    }
+    }*/
      
 
    

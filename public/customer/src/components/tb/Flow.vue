@@ -78,8 +78,7 @@
 <el-dialog
   title="提示"
   :visible.sync="dialogVisible"
-  width="30%"
-  :before-close="handleClose">
+  width="30%">
   <span>{{dialogMsg}}</span>
   <span slot="footer" class="dialog-footer">
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -195,12 +194,12 @@ export default {
        var keywords = []
         if(this.link==""){
           this.showInfo("请输入商品链接")
-          return;
+          return false;
         }
         for(var i=0;i<len;i++){
           if(tasks[i].keyword==""){
           this.showInfo("请输入搜索的关键字")
-          return;
+          return false;
           }
           keywords.push({
             keyword:tasks[i].keyword,

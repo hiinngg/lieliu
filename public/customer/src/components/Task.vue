@@ -8,7 +8,7 @@
     <el-input placeholder="请输入关键词"  v-model="keyword"></el-input>
    </el-col>
      <el-col  :md="{span:6}"    > 
-     <el-input-number  v-model.lazy="num" @change="handleChange" :min="1" label="描述文字"></el-input-number>
+     <el-input-number  v-model.lazy="num"  :min="1" label="描述文字"></el-input-number>
      </el-col>
      <el-col  :md="{span:2}"   > 
      <el-checkbox v-model="periodShow">时段</el-checkbox>
@@ -33,7 +33,7 @@
        </el-col>
 
     </el-row>
-   <el-radio-group v-model="periodType" size="small" style="float:right;"  @change="periodType"  >
+   <el-radio-group v-model="periodType" size="small" style="float:right;"    >
       <el-radio-button label="today">当天完成</el-radio-button>
       <el-radio-button label="curve">模拟流量</el-radio-button>
       <el-radio-button label="self">自定义</el-radio-button>
@@ -46,8 +46,7 @@
 <el-dialog
   title="提示"
   :visible.sync="dialogVisible"
-  width="30%"
-  :before-close="handleClose">
+  width="30%">
   <span>{{dialogMsg}}</span>
   <span slot="footer" class="dialog-footer">
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
@@ -139,7 +138,7 @@ methods:{
         this.showInfo("最多只能设置10个关键词")
         return false;
     }
-         this.$emit('mynum',this.num)
+         this.$emit('mynum',100)
          this.$emit('myinc')
        
       
