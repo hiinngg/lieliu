@@ -5,9 +5,10 @@
 	
 <el-menu    style="padding:0 240px;position:relative;display:flex;justify-content:flex-end;" :default-active="activeIndex" class="el-menu-demo"  background-color="#262930"  text-color="#ffffff" active-text-color="#d9363a" mode="horizontal" >
   <el-menu-item  index="5" class="hidden-sm-and-down" style="position:absolute;left:240px;"><img src="logo.png" alt="" /></el-menu-item>
-  <el-menu-item index="1">处理中心</el-menu-item>
+   <el-menu-item  index="6" @click="login"  class="hidden-sm-and-down"> <el-button type="primary" size="small">登录</el-button></el-menu-item>
+   <el-menu-item index="7"  class="hidden-sm-and-down"> <el-button type="primary" size="small" plain>注册</el-button></el-menu-item>
   <el-submenu index="2">
-    <template slot="title">我的工作台</template>
+    <template slot="title">1362038326</template>
     <el-menu-item index="2-1">选项1</el-menu-item>
     <el-menu-item index="2-2">选项2</el-menu-item>
     <el-menu-item index="2-3">选项3</el-menu-item>
@@ -18,8 +19,6 @@
       <el-menu-item index="2-4-3">选项3</el-menu-item>
     </el-submenu>
   </el-submenu>
-  <el-menu-item index="3" disabled>消息中心</el-menu-item>
-  <el-menu-item index="4"><a href="https://www.ele.me" target="_blank">订单管理</a></el-menu-item>
 </el-menu>
 <el-main class="container">
 	<el-row :gutter="20">
@@ -37,36 +36,53 @@
 	 
     <el-menu default-active="1" class="el-menu-vertical-demo" style="margin-top:30px;"  @select="myselect" text-color="#000000" active-text-color="#d9363a">
 
+   <router-link to="/tb">
       <el-menu-item index="1">
         <i class="el-icon-menu"></i>
-        <router-link to="/Tb" slot="title">淘宝任务</router-link>
+        <span slot="title">淘宝任务</span>
       </el-menu-item>
-  
+    </router-link> 
       <el-menu-item index="2">
         <i class="el-icon-setting"></i>
         <span slot="title">京东任务</span>
       </el-menu-item>
-      <el-menu-item index="3">
-        <i class="el-icon-setting"></i>
-        <span slot="title">任务模板</span>
-      </el-menu-item>
+   <router-link to="/order">
       <el-menu-item index="4">
         <i class="el-icon-setting"></i>
-        <router-link to="/Order" slot="title">业务查询</router-link>
+        <router-link to="/order" slot="title">业务查询</router-link>
       </el-menu-item>
+   </router-link>
     </el-menu>
       </el-col>
 	  <el-col :md="{span: 20}" >
 
 
-<component v-bind:is="currentView">
-  <!-- 组件在 vm.currentview 变化时改变！ -->
-</component>
+<router-view>
+</router-view>
 
 
      </el-col>
 	</el-row>
 </el-main>
+
+<el-dialog
+  title="登录"
+  :visible.sync="dialogVisible"
+  width="30%">
+ <el-form ref="form" :model="form" label-width="80px">
+  <el-form-item label="手机号">
+    <el-input v-model="form.name"></el-input>
+  </el-form-item>
+    <el-form-item label="密码">
+    <el-input v-model="form.pwd"></el-input>
+  </el-form-item>
+  <el-form-item>
+    <el-button type="primary" @click="onSubmit">登录</el-button>
+    <p>还没有账号？<span @click="register" >立即注册</span> </p>
+  </el-form-item>
+</el-form>
+</el-dialog>
+
 </div>
 </template>
 
@@ -79,13 +95,18 @@ import Order from './components/Order.vue'
 
 
 
-
 export default {
   name: 'app',
   data:function(){
   return {
+       form:{
+         name:"",
+         pwd:""
+
+       },
          activeIndex: '1',
-         currentView:Tb
+         currentView:Tb,
+         dialogVisible: false
   }
   },
 
@@ -95,20 +116,10 @@ export default {
     Tb,
     Task
   },
+ 
   methods:{
-   myselect:function(e){
-   /* switch(e){
-    case "1":
-      this.currentView=Tb;
-      break;
-    case "4":
-      this.currentView=Order;
-      break;
-    
-    }*/
-     
-
-   
+    login(){
+      this.dialogVisible= !this.dialogVisible
     }
 
   }
@@ -158,6 +169,8 @@ export default {
 
 	align-items:center;
 }
+a { text-decoration: none;color:black;} 
+
 
 
 </style>

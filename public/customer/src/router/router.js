@@ -1,13 +1,17 @@
-import App from '../App'
+import App from '../App.vue';
+import Tb from '../components/Tb.vue';
+import Order from '../components/Order.vue';
+import Flow from '../components/tb/Flow.vue';
 
-export default [{
-    path: '/',
-    component: App,
-    children: [{
-        path: '/tb',
-        component: r => require.ensure([], () => r(require('../component/tb')), 'tb')
-    }, {
-        path: '/order',
-        component: r => require.ensure([], () => r(require('../component/order')), 'order')
-    }]
-}]
+export default [
+
+    { path: '/tb',
+      alias: '/',
+    // You could also have named views at tho top
+    component:Tb,
+  },
+    { path: '/order',
+      // You could also have named views at tho top
+      component:Order,
+    }
+  ]

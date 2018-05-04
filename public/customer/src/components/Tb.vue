@@ -3,12 +3,18 @@
 	<el-main>
 
   <el-tabs  v-model="activeName" >
-    <el-tab-pane label="流量任务" name="first">
+    <el-tab-pane label="流量任务" name="flow">
      <Flow  ref="flow"  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Flow>
     </el-tab-pane>
-    <el-tab-pane label="收藏任务" name="second">收藏任务</el-tab-pane>
-    <el-tab-pane label="加购任务" name="third">加购任务</el-tab-pane>
-    <el-tab-pane label="淘宝直播" name="fourth">淘宝直播</el-tab-pane>
+    <el-tab-pane label="收藏任务" name="second"> <Favorite ref="favorite"  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Favorite></el-tab-pane>
+    <el-tab-pane label="加购任务" name="third">
+      <Cart ref="cart"  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Cart>
+
+    </el-tab-pane>
+    <el-tab-pane label="淘宝直播" name="fourth">
+      
+       <Live ref="live"  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Live>
+    </el-tab-pane>
   </el-tabs>
  
 	<el-card class="box-card cf" style="margin-top:30px;">
@@ -30,11 +36,14 @@
 </template>
 <script type="text/javascript">
 import Flow from './tb/Flow.vue'
+import Favorite from './tb/Favorite.vue'
+import Cart from './tb/Cart.vue'
+import Live from './tb/Live.vue'
 export default {
 
   data:function(){
 	return {
-	   activeName:'first',
+	   activeName:'flow',
      viewtime:30,
      deeptime:0,
      tasktype:"app",
@@ -44,7 +53,10 @@ export default {
 	}
   },
    components: {
-    Flow
+    Flow,
+    Favorite,
+    Cart,
+    Live
   },
   computed:{
     totaltime:function(){
@@ -85,20 +97,49 @@ export default {
 
     },
      submit:function(){
-    var res =  this.$refs.flow.submit()
+
+    this.$confirm('一键发布任务，是否继续？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+
+      var res =  this.$refs.flow.submit()
       if(!res){
         return;
       }
       res['totaltime'] =  this.totaltime;
-      res['totalint']  =  this.totalint
+      res['totalint']  =  this.totalint;
+      const loading = this.$loading({    //放 loading
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+
       this.$http.post("/addorder", res).then(response => {
           var res = response.body;
-          console.log(res);
-          this.showInfo("本次共发布"+res.total+"个任务，成功"+res.success+"个，失败"+res.error+"个。详情请看业务查询板块");
-
+          loading.close();
+        this.$alert("本次共发布"+res.total+"个任务，成功"+res.success+"个，失败"+res.error+"个。详情请看业务查询板块", '提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$router.push({ path: '/order' })
+          }
+        });
          }, response => {
           // error callback
          });
+        
+
+        }).catch(() => {         
+        });
+
+    
+
+
+
+
+   
      }
 
 
