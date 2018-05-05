@@ -117,7 +117,7 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         });
 
-      this.$http.post("/addorder", res).then(response => {
+      this.$http.post("/customer/index/addorder", res).then(response => {
           var res = response.body;
           loading.close();
         this.$alert("本次共发布"+res.total+"个任务，成功"+res.success+"个，失败"+res.error+"个。详情请看业务查询板块", '提示', {

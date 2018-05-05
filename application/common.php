@@ -13,6 +13,8 @@
 define("VUE_MOUDLE", "./customer/dist/index.html");
 define("U_NAME","u_1668836");
 define("KEY",'0080d94b1c127dc0f26bc898453f30b6');
+define("U_SNS","waxili");
+define("P_SNS","waxili2018");
 
 function  orderid(){
     $time = date("YmdHis");

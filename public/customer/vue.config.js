@@ -70,12 +70,21 @@ module.exports = {
     https: false,
     hotOnly: false,
     // See https://github.com/vuejs/vue-cli/blob/dev/docs/cli-service.md#configuring-proxy
-    proxy: {
+  /*  proxy: {
       '/addorder': {
         target: 'http://www.lieliu1.com/customer/index/addorder',
         changeOrigin: true
       },
-    },
+       '/sendsns': {
+        target: 'http://www.lieliu1.com/customer/register/sendsns',
+        changeOrigin: true
+      },
+       '/orderlist': {
+        target: 'http://www.lieliu1.com/customer/order/orderlist',
+        changeOrigin: true
+      }
+    },*/
+     proxy: 'http://www.lieliu1.com',
     before: app => {}
   },
 

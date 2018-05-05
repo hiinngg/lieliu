@@ -73,7 +73,9 @@ class Index extends  Controller{
                       //发布成功
                      return  $success+=1;
                   }else{
+                      var_dump($res);
                      return   $error+=1;
+
                   }
 
                 },
