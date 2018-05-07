@@ -5,6 +5,8 @@ use think\Controller;
 use GuzzleHttp\Pool;
 use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
+use think\Session;
+use think\Db;
 /* class  用户模块入口
  * ljq
  *  */
@@ -14,11 +16,36 @@ class Order extends  Controller{
     //查看任务
     public function  orderlist(){
         if($this->request->isAjax()){
+
+
+         if(!Session::has("userid")){
+            return "您还没有登录，请先登录";
+            die();
+         }else{
+            $userid = Session::get("userid");
+         }
+
+         //获取客人已发布的任务
+           $tasks =  $this->checkout($userid);
+           if(empty($tasks)){
+            return [
+                    'status'=>1,
+                    'data'=>[]
+                ];
+           }
+
+             $taskids = array_map(function($v){
+                return $v['third_task_id'];
+             },$tasks);
+
+             $id = implode(",", $taskids);
             $post = $this->request->post();
             $base_uri = 'http://api.lieliu.com:1024/ll/task_list';
                 $param = [
                     'username'         =>U_NAME,
                     'format'           =>'json',
+                    'id'               =>$id,
+                    'begin_time'       =>date("Y-m-d"),
                     'timestamp'        =>strtotime(date("Y-m-d H:i:s")),
                     'ver'              =>4
 
@@ -31,45 +58,30 @@ class Order extends  Controller{
                 $str.="signkey=". $this->signkey('/ll/task_list',$param);
 
             //请求第三方接口
-            $success=0;
-            $error=0;
-
             $client = new Client();
-            $requests = function ($total)  use($params) {
+            $request = new Request('GET', $str);
+            $response = $client->send($request);
+            $res = json_decode($response->getBody()->getContents(),true);
+            
 
-                for ($i = 0; $i < $total; $i++) {
-                    yield new Request('GET',$params[$i]);
-                }
-            };
 
-            $pool = new Pool($client, $requests(count($params)), [
-                'concurrency' =>5,
-                'fulfilled' => function ($response, $index)  use(&$success,&$error){
-                    $res = json_decode($response->getBody()->getContents(),true);
-                    if($res['data']['status']==1){
-                        //发布成功
-                        return  $success+=1;
-                    }else{
-                        var_dump($res);
-                        return   $error+=1;
-
-                    }
-
-                },
-                'rejected' => function ($reason, $index)  use(&$error){
-                    $error+=1;
-                },
-            ]);
-            $promise = $pool->promise();
-            $promise->wait();
-            return [
-                'total' =>count($params),
-                'success'=>$success,
-                'error'  =>$error
-            ];
-
+            if($res['data']['status']==1){
+                return [
+                    'status'=>1,
+                    'data'=>$res['data']['list']['l']
+                ];
+            }else{
+                return '获取失败';
+            }
         }
     }
+
+    /*
+    获取客人已发布的任务
+    */
+     public function checkout($userid){
+        return Db::name("task")->where("userid",$userid)->select();
+     }
 
 
     /*
@@ -84,4 +96,6 @@ class Order extends  Controller{
         }
         return md5(urlencode( $url."?".$param.KEY)) ;
     }
+
+
 }

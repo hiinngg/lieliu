@@ -3,21 +3,16 @@
 <template>
 <div id="#app" >
 	
-<el-menu    style="padding:0 240px;position:relative;display:flex;justify-content:flex-end;" :default-active="activeIndex" class="el-menu-demo"  background-color="#262930"  text-color="#ffffff" active-text-color="#d9363a" mode="horizontal" >
-  <el-menu-item  index="5" class="hidden-sm-and-down" style="position:absolute;left:240px;"><img src="logo.png" alt="" /></el-menu-item>
+<el-menu    style="padding:0 240px;position:relative;display:flex;justify-content:flex-end;" :default-active="activeIndex" class="el-menu-demo"  background-color="#ffffff"  text-color="#000" active-text-color="#d9363a" mode="horizontal" >
+  <el-menu-item  index="5" class="hidden-sm-and-down" style="position:absolute;left:240px;"><img src="logo.png" alt="" width="71px" height="71px"/></el-menu-item>
+  <template v-if="!isvalid">
    <el-menu-item  index="6" @click="login"  class="hidden-sm-and-down"> <el-button type="primary" size="small">登录</el-button></el-menu-item>
    <el-menu-item index="7"   @click="register" class="hidden-sm-and-down"> <el-button type="primary" size="small" plain>注册</el-button></el-menu-item>
-  <el-submenu index="2">
-    <template slot="title">1362038326</template>
-    <el-menu-item index="2-1">选项1</el-menu-item>
-    <el-menu-item index="2-2">选项2</el-menu-item>
-    <el-menu-item index="2-3">选项3</el-menu-item>
-    <el-submenu index="2-4">
-      <template slot="title">选项4</template>
-      <el-menu-item index="2-4-1">选项1</el-menu-item>
-      <el-menu-item index="2-4-2">选项2</el-menu-item>
-      <el-menu-item index="2-4-3">选项3</el-menu-item>
-    </el-submenu>
+  </template>
+  <el-submenu  v-else index="2">
+    <template slot="title">{{tel}}</template>
+    <el-menu-item index="2-1"  @click="logout">退出</el-menu-item>
+
   </el-submenu>
 </el-menu>
 <el-main class="container">
@@ -25,12 +20,12 @@
 	  <el-col :md="{span: 4}" >
 	  <div class="flex-column flex-align-center" >
 	     <img src="avastar.png" alt="" />
-	     <div>
-	      <small>充值积分</small>
-	      <small>赠送积分</small>
-	      </div>
+	     <p style="font-size:12px;">
+        <strong>积分：</strong>
+        <span>{{integrate}}</span>
+       </p>
 	   
-	       <el-button type="primary">点击充值</el-button>
+	       <el-button @click="recharge"  type="primary">点击充值</el-button>
 	  </div>
 	  
 	 
@@ -76,14 +71,28 @@
     <el-input   v-model="loginform.tel"  ></el-input>
   </el-form-item>
     <el-form-item label="密码" prop="pwd">
-    <el-input v-model="loginform.pwd" ></el-input>
+    <el-input type="password" v-model="loginform.pwd" ></el-input>
   </el-form-item>
   <el-form-item>
-    <el-button type="primary" @click="loginSubmit('loginform')">登录</el-button>
+    <el-button type="primary" :loading="loginloading"  @click="loginSubmit('loginform')">登录</el-button>
     <p>还没有账号？<span @click="register"  style="cursor:pointer;"  >立即注册</span> </p>
   </el-form-item>
 </el-form>
 </el-dialog>
+
+
+<el-dialog
+  title="充值"
+:visible.sync="payVisible"
+:close-on-click-modal ="false"
+:close-on-press-escape="false"
+  >
+   <div style="display:flex;align-item:center;justify-content:center;">
+     <img src="wxpay.jpg" height="550" width="400" style="margin-right:15px;">
+     <img src="alipay.jpg" height="550" width="400">
+   </div>
+</el-dialog>
+
 
 <el-dialog
   title="注册"
@@ -152,6 +161,10 @@ export default {
 
 
   return {
+       isvalid:false,
+       tel:"",
+       integrate:"",
+       loginloading:false,
        loginform:{
          tel:"",
          pwd:""
@@ -167,6 +180,9 @@ export default {
         loginrules:{
           tel:[
             { required: true, message: '请输入有效的手机号', trigger:'change' },
+          ],
+           pwd:[
+            { required: true, message: '请输入密码', trigger:'change' },
           ],
         },
         regrules:{
@@ -192,7 +208,8 @@ export default {
          codetext:"发送验证码",
          time:60,
          dialogVisible: false,
-         dialogVisible1: false
+         dialogVisible1: false,
+         payVisible:false
   }
   },
 
@@ -202,7 +219,41 @@ export default {
     Tb,
     Task
   },
- 
+  watch:{
+     isvalid:function(newid){
+       if(newid){
+        this.$http.get("/customer/index/getintegrate").then(response => {
+        var res = response.body;
+     if(res.status==1){
+         this.tel = res.tel; 
+          this.integrate =  res.integrate;  
+        }else{
+          this.$message({message:res,type:"error"});
+        }
+       
+           //this.sendtime();
+         }).catch(() => {         
+        });
+       }else{
+          this.tel = ""; 
+          this.intefrate = "";        
+    
+       }
+     }
+
+  },
+ created:function(){
+    this.$http.get("/customer/index/usercheck").then(response => {
+        var res = response.body;
+        if(res.status!=1){
+          return ;
+        }else{ 
+          this.isvalid = true;
+        }
+           //this.sendtime();
+         }).catch(() => {         
+        });
+ },
   methods:{
     login(){
       this.dialogVisible1= false
@@ -213,12 +264,43 @@ export default {
       this.dialogVisible= false
       this.dialogVisible1= true
     },
+    logout(){
+        this.$http.get("/customer/index/logout").then(response => {
+        var res = response.body;
+        if(res!=1){
+          return ;
+        }else{ 
+          this.isvalid = false;
+        }
+           //this.sendtime();
+         }).catch(() => {         
+        });
+    },
+    recharge:function(){
+      this.payVisible = true;
+    },
     loginSubmit(formName){
+
       this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!');
+       this.loginloading=true;
+        this.$http.post("/customer/login/logincheck", this.loginform).then(response => {
+        var res = response.body;
+       this.loginloading=false;
+        if(res!=1){
+           this.$message({message:res,type:"error"});
+        }else{
+           this.$message({message:"登录成功！",type:"success"});
+           this.dialogVisible= false;
+           this.isvalid= true;
+        }
+           //this.sendtime();
+         }).catch(() => {         
+        });
+
+
           } else {
-            console.log('error submit!!');
+           
             return false;
           }
         });
@@ -226,18 +308,41 @@ export default {
     regSubmit(formName){
       this.$refs[formName].validate((valid) => {
           if (valid) {
-            alert('submit!1231231');
+           
+        //注册用户
+        this.$http.post("/customer/register/userRegister", this.regform).then(response => {
+        var res = response.body;
+        if(res!=1){
+           this.$message({message:res,type:"error"});
+        }else{
+           this.$message({message:"注册成功！",type:"success"});
+           this.login();
+        }
+           //this.sendtime();
+         }).catch(() => {         
+        });
+
+
           } else {
-            console.log('error submit!!');
+           
             return false;
           }
         });
     },
     sendcode(){
-
-
+      if(this.regform.tel==""){
+        this.$message({message:"手机号不能为空",type:"error"});
+        return;
+      }
        this.$http.post("/customer/register/sendsns", {tel:this.regform.tel}).then(response => {
+        var res = response.body;
+        if(res!=1){
+           this.$message({message:res,type:"error"});
+        }else{
+           this.$message({message:"验证码已经发送成功，请及时查看手机",type:"success"});
            this.sendtime();
+        }
+           //this.sendtime();
          }).catch(() => {         
         });
     },
@@ -245,7 +350,6 @@ export default {
     
     if (this.time == 0) { 
         this.cansendcode=false
-        //obj.removeattr("disabled"); 
         this.codetext="发送验证码" 
         this.time = 60; 
         return;

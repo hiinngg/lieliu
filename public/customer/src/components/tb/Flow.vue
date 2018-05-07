@@ -207,9 +207,10 @@ export default {
             period:tasks[i].period
           })
         }
+        var mydate = new Date(this.date[0]);
         return {
          link:this.link,
-         date:this.date[0],
+         date: (mydate.getTime())/1000,
          keywords:keywords,
          deeptime:this.deeptime,     
          viewtime:this.viewtime,     

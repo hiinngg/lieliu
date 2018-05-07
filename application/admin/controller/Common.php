@@ -15,6 +15,7 @@ class Common extends Controller
     public function _initialize()
     {
 
+
         
       /*   if (!Session::has("adminuser")) {
 //            var_dump($_SESSION);

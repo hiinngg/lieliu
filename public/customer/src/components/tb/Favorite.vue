@@ -3,9 +3,9 @@
 <el-form class="cf" ref="form" :model="form" label-width="100px">
   <el-form-item label="任务类型">
       <el-radio-group v-model="radio4" size="medium"  @change="changetype">
-      <el-radio-button label="app" >搜索收藏</el-radio-button>
-      <el-radio-button label="pc">商品收藏</el-radio-button>
-      <el-radio-button label="view">店铺收藏</el-radio-button>
+      <el-radio-button label="search" >搜索收藏</el-radio-button>
+      <el-radio-button label="product">商品收藏</el-radio-button>
+      <el-radio-button label="shop">店铺收藏</el-radio-button>
     </el-radio-group>
   <el-form-item label="显示高级设置" style="float:right;">
     <el-switch v-model="form.delivery"></el-switch>
@@ -38,7 +38,7 @@
 
 
 
-<template v-if="radio4!='view'"   >
+<template v-if="radio4=='search'"   >
   <Task     ref="task"  v-for="(k,index) in keywordlist"  :keywordlistLength="keywordlist.length" v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  :key="k"  :mykey="index"></Task>
   </template>
 <template v-else>
@@ -102,7 +102,7 @@ export default {
            form:{},
            taskname:"",     //任务名称，可不填
            link:"",         //商品链接 必填
-           radio4: 'app',   //任务类型
+           radio4: 'search',   //任务类型
            totalnum:100,    //每天任务量
            date:[Date.now(),Date.now()],         //日期
            day:1,           //天数

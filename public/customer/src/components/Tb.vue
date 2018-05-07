@@ -2,7 +2,7 @@
 <template>
 	<el-main>
 
-  <el-tabs  v-model="activeName" >
+  <el-tabs  v-model="activeName"  @tab-click="tabchange">
     <el-tab-pane label="流量任务" name="flow">
      <Flow  ref="flow"  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Flow>
     </el-tab-pane>
@@ -96,6 +96,9 @@ export default {
        this.dialogMsg = msg
 
     },
+    tabchange:function(tab){
+   console.log(tab)
+    },
      submit:function(){
 
     this.$confirm('一键发布任务，是否继续？', '提示', {
@@ -106,6 +109,7 @@ export default {
 
 
       var res =  this.$refs.flow.submit()
+
       if(!res){
         return;
       }
@@ -117,21 +121,27 @@ export default {
           background: 'rgba(0, 0, 0, 0.7)'
         });
 
-      this.$http.post("/customer/index/addorder", res).then(response => {
+        this.$http.post("/customer/index/addorder", res).then(response => {
           var res = response.body;
           loading.close();
-        this.$alert("本次共发布"+res.total+"个任务，成功"+res.success+"个，失败"+res.error+"个。详情请看业务查询板块", '提示', {
+          if(res.status==1){
+              this.$alert("本次共发布"+res.total+"个任务，成功"+res.success+"个，失败"+res.error+"个。详情请看业务查询板块", '提示', {
           confirmButtonText: '确定',
           callback: action => {
             this.$router.push({ path: '/order' })
           }
-        });
+         });
+        }else{
+          this.$message({message:res,type:"error"})
+        }
+      
          }, response => {
           // error callback
          });
         
 
-        }).catch(() => {         
+        }).catch(() => { 
+         loading.close();        
         });
 
     

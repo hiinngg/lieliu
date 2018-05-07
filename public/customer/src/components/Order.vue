@@ -1,77 +1,78 @@
 <template>
-  <el-table
+  <div>
+      <el-button type="primary" style="margin-bottom:30px;" @click="refresh">刷新</el-button>
+    <el-table
     :data="tableData"
     border
     style="width: 100%">
     <el-table-column
-      prop="date"
-      label="任务类型"
-      width="180">
+      prop="a"
+      label="旺旺/宝贝id/店铺id"
+      width="200"
+      >
     </el-table-column>
     <el-table-column
-      prop="name"
-      label="旺旺/访问"
-      width="旺旺/访问">
-    </el-table-column>
-    <el-table-column
-      prop="price"
+      prop="p"
       label="单价/总价">
     </el-table-column>
     <el-table-column
-      prop="发布量/剩余量"
-      label="发布量/剩余量">
+      prop="c"
+      label="发布量">
     </el-table-column>
       <el-table-column
-      prop="处理状态"
+      prop="m"
       label="处理状态">
     </el-table-column>
     <el-table-column
-      prop="发布时间"
+      prop="t"
       label="发布时间">
     </el-table-column>
      <el-table-column
-      prop="执行日期"
+      prop="b"
       label="执行日期">
     </el-table-column>
      <el-table-column
-      prop="备注/名称"
-      label="备注/名称">
-    </el-table-column>
-     <el-table-column
-      prop="操作"
+      prop="oper"
       label="操作">
     </el-table-column>
   </el-table>
+  </div>
+  
 </template>
 
 <script>
   export default {
     data() {
       return {
-        tableData: [{
-          date: '2016-05-02',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1518 弄'
-        }, {
-          date: '2016-05-04',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1517 弄'
-        }, {
-          date: '2016-05-01',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1519 弄'
-        }, {
-          date: '2016-05-03',
-          name: '王小虎',
-          address: '上海市普陀区金沙江路 1516 弄'
-        }]
+        tableData: ""
       }
     },
     created:function(){
-         this.$http.post("/customer/order/orderlist", {tel:"123"}).then(response => {
-         
-         }).catch(() => {         
+       this.loaddata();
+    },
+    methods:{
+      refresh:function(){
+        this.loaddata();
+      },
+      loaddata:function(){
+         const loading = this.$loading({    //放 loading
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
         });
+         this.$http.post("/customer/order/orderlist", {tel:"123"}).then(response => {
+            var res = response.body;
+             loading.close();
+             if(res.status==1){
+              this.$message('获取成功');
+               this.tableData = res.data;
+             }else{
+              this.$message({message:res,type:"error"});
+             }
+         }).catch(() => {
+          loading.close();         
+        });
+      }
     }
 
   }
