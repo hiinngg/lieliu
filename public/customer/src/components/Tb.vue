@@ -4,7 +4,7 @@
 
   <el-tabs  v-model="activeName"  @tab-click="tabchange">
     <el-tab-pane label="流量任务" name="flow">
-     <Flow  ref="flow"  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Flow>
+     <Flow  ref="flow"    ></Flow>
     </el-tab-pane>
     <el-tab-pane label="收藏任务" name="second"> <Favorite ref="favorite"  v-on:addviewtime="addviewtime"  v-on:adddeeptime="adddeeptime"   v-on:changetype="changetype"  v-on:changeint="changeint"   ></Favorite></el-tab-pane>
     <el-tab-pane label="加购任务" name="third">
@@ -17,10 +17,7 @@
     </el-tab-pane>
   </el-tabs>
  
-	<el-card class="box-card cf" style="margin-top:30px;">
-	  <p>任务耗时：<span class="num">{{totaltime}}</span>秒&nbsp;&nbsp;单次消费：<span class="num">{{perint}}</span>积分&nbsp;&nbsp;合计消费：<span class="num">{{totalint}}</span>积分</p>
-	  <el-button  @click="submit" style="float:right;" type="danger">发布任务</el-button>
-	</el-card>
+	
 
 <el-dialog
   title="提示"
@@ -96,9 +93,6 @@ export default {
        this.dialogMsg = msg
 
     },
-    tabchange:function(tab){
-   console.log(tab)
-    },
      submit:function(){
 
     this.$confirm('一键发布任务，是否继续？', '提示', {
@@ -144,11 +138,7 @@ export default {
          loading.close();        
         });
 
-    
-
-
-
-
+  
    
      }
 

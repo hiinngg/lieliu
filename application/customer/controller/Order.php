@@ -7,12 +7,12 @@ use GuzzleHttp\Client;
 use GuzzleHttp\Psr7\Request;
 use think\Session;
 use think\Db;
+
 /* class  用户模块入口
  * ljq
  *  */
 
 class Order extends  Controller{
-
     //查看任务
     public function  orderlist(){
         if($this->request->isAjax()){
@@ -63,7 +63,7 @@ class Order extends  Controller{
             $response = $client->send($request);
             $res = json_decode($response->getBody()->getContents(),true);
             
-
+            
 
             if($res['data']['status']==1){
                 return [
@@ -71,6 +71,7 @@ class Order extends  Controller{
                     'data'=>$res['data']['list']['l']
                 ];
             }else{
+                var_dump($res);
                 return '获取失败';
             }
         }
@@ -97,5 +98,7 @@ class Order extends  Controller{
         return md5(urlencode( $url."?".$param.KEY)) ;
     }
 
-
+    public function  ads(){
+        
+    }
 }

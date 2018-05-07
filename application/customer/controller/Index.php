@@ -141,14 +141,14 @@ class Index extends  Controller{
                     ]);
                      return  $success+=1;
                   }else{
-                      var_dump($res);
+                     var_dump($res);
                      return   $error+=1;
 
                   }
 
                 },
                 'rejected' => function ($reason, $index)  use(&$error){
-                   $error+=1;
+                 $error+=1;
                 },
             ]);
             $promise = $pool->promise();

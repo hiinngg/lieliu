@@ -86,6 +86,11 @@
 </el-dialog>
 
 
+<el-card class="box-card cf" style="margin-top:30px;">
+	  <p>任务耗时：<span class="num">{{totaltime}}</span>秒&nbsp;&nbsp;单次消费：<span class="num">{{perint}}</span>积分&nbsp;&nbsp;合计消费：<span class="num">{{totalint}}</span>积分</p>
+	  <el-button  @click="submit" style="float:right;" type="danger">发布任务</el-button>
+	</el-card>
+
 </el-form>
 
 
@@ -111,6 +116,7 @@ export default {
            keywordlist:[0], //关键词列表
            deeptime:30,     //商品深度的浏览时间
            viewtime:30,     //商品的浏览时间
+           truedeeptime:0,   //真正要加上去的时间
            mydeep:"0",      //商品浏览深度
            deep:[
             {
@@ -168,18 +174,33 @@ export default {
       totaltask:function(){    //总任务量
         return this.day*this.totalnum
       },
+      totaltime:function(){
+      return this.viewtime+this.truedeeptime
+    },
+     perint:function(){
+       switch(this.radio4){
+          
+       case "app":
+          return Math.round((this.totaltime/5)*2.5*0.3);
+       case "pc" :
+          return Math.round((this.totaltime/5)*2.5*0.7); 
+       case "view" :
+          return Math.round((this.totaltime/5)*2.5*0.7); 
+       }
+    },
+    totalint:function(){
+       return  this.totaltask*this.perint;
+    }
 
     },
     watch:{
      mydeep:function(d){
       if(d!=0){
-          this.$emit("adddeeptime",this.truedeeptime())
+    
+         this.truedeeptime = this.trandeeptime()
       }else{
-         this.$emit("adddeeptime",0)
+         this.truedeeptime = 0
       }
-     },
-     totaltask:function(value){
-         this.$emit("changeint",value)
      },
      radio4:function(newr,oldr){
 
@@ -188,7 +209,7 @@ export default {
 
     methods: {
     
-      submit() {
+      subdata() {
        var tasks = this.$refs.task;
        var len = tasks.length;
        var keywords = []
@@ -220,23 +241,71 @@ export default {
          taskname:this.taskname
         }
       },
+      submit:function(){
+
+    this.$confirm('一键发布任务，是否继续？', '提示', {
+          confirmButtonText: '确定',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+
+
+      var res =  this.subdata()
+
+      if(!res){
+        return;
+      }
+      res['totaltime'] =  this.totaltime;
+      res['totalint']  =  this.totalint;
+      const loading = this.$loading({    //放 loading
+          text: 'Loading',
+          spinner: 'el-icon-loading',
+          background: 'rgba(0, 0, 0, 0.7)'
+        });
+
+        this.$http.post("/customer/index/addorder", res).then(response => {
+          var res = response.body;
+          loading.close();
+          if(res.status==1){
+              this.$alert("本次共发布"+res.total+"个任务，成功"+res.success+"个，失败"+res.error+"个。详情请看业务查询板块", '提示', {
+          confirmButtonText: '确定',
+          callback: action => {
+            this.$router.push({ path: '/order' })
+          }
+         });
+        }else{
+          this.$message({message:res,type:"error"})
+        }
+      
+         }, response => {
+          // error callback
+         });
+        
+
+        }).catch(() => { 
+         loading.close();        
+        });
+
+  
+   
+     },
       mynum(num){
          this.totalnum +=num;
 
       },
-      myviewtime(time){
-        this.$emit("addviewtime",time)
-      },
+    //  myviewtime(time){
+    //    this.$emit("addviewtime",time)
+    //  },
       mydeeptime(time){
         if(this.mydeep!="0"){
-          this.$emit("adddeeptime",this.truedeeptime())
+        this.truedeeptime = this.trandeeptime()
         }
-      },
+    },
       changetype(type){
         if(type!="view"){
           this.rnum()
         }
-         this.$emit("changetype",type)
+       //  this.$emit("changetype",type)
         
       },
       datechange(date){     //选择日期后触发计算天数  date:array (min,max)
@@ -254,7 +323,7 @@ export default {
        this.keywordlist.push(this.keywordlist.length)
        return true;
       },
-      truedeeptime:function(){  //计算商品深度真正时间  具体请看data的deep数组
+      trandeeptime:function(){  //计算商品深度真正时间  具体请看data的deep数组
 
           switch(this.mydeep){
             case "1":
@@ -277,6 +346,7 @@ export default {
        this.dialogMsg = msg
 
     },
+    
     rnum:function(){   //重新统计各关键词的数量
       var list =  this.$refs.task
   

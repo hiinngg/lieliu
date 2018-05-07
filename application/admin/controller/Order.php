@@ -2,7 +2,7 @@
 namespace  app\admin\controller;
 
 use think\Controller;
-use app\admin\model\Order;
+
 
 class Order extends  Controller{
     
