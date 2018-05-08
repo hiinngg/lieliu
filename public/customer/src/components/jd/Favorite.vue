@@ -3,11 +3,12 @@
 <el-form class="cf" ref="form" :model="form" label-width="100px">
   <el-form-item label="任务类型">
       <el-radio-group v-model="radio4" size="medium"  @change="changetype">
-      <el-radio-button label="sub" >达人关注</el-radio-button>
-      <el-radio-button label="like">微淘点赞</el-radio-button>
-       <el-radio-button label="live">直播观看</el-radio-button>
+      <el-radio-button label="search" >搜索收藏</el-radio-button>
+      <el-radio-button label="product">直接收藏</el-radio-button>
     </el-radio-group>
-    </el-radio-group>
+  <el-form-item label="显示高级设置" style="float:right;">
+    <el-switch v-model="form.delivery"></el-switch>
+  </el-form-item>
 
   </el-form-item>
   <el-form-item label="任务日期">
@@ -30,24 +31,47 @@
     <el-input v-model="taskname" placeholder="输入任务名称(可不填)" ></el-input>
   </el-form-item>
   <el-form-item label="链接" >
-    <el-input  v-if="radio4=='sub'" v-model="link" placeholder="输入店铺链接" ></el-input>
-    <el-input  v-else-if="radio4=='like'"   v-model="link" placeholder="输入微淘分享的微口令" ></el-input>
-    <el-input  v-else-if="radio4=='live'"   v-model="link" placeholder="输入淘宝直播间分享的淘口令" ></el-input>
+    <el-input  v-if="radio4!='shop'" v-model="link" placeholder="输入商品链接（或淘口令)" ></el-input>
+    <el-input  v-else   v-model="link" placeholder="输入店铺链接" ></el-input>
   </el-form-item>
 
 
 
 
-
-<template >
+<template v-if="radio4=='search'"   >
+  <Task     ref="task"  v-for="(k,index) in keywordlist"  :keywordlistLength="keywordlist.length" v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  :key="k"  :mykey="index"></Task>
+  </template>
+<template v-else>
 <el-form-item label="每日任务数量">
     <el-input-number v-model="totalnum"  :min="1"  label="描述文字"></el-input-number>
 </el-form-item>
 </template>
 
-  <LiveTask     ref="task"   v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  ></LiveTask>
 
+<template v-if="form.delivery">
+  
 
+ <el-form-item label="浏览时间">
+    <el-input-number v-model="viewtime"   @change="myviewtime"  :min="30"  :step="10" label="描述文字"></el-input-number>
+    <el-checkbox style="margin-left:15px;" v-model="checked">查看宝贝评价</el-checkbox>
+</el-form-item>
+
+  
+ <el-form-item label="商品浏览深度" class='cf'>
+   <el-select v-model="mydeep" placeholder="请选择"  >
+    <el-option
+      v-for="item in deep"
+      :key="item.value"
+      :label="item.label"
+      :value="item.value">
+    </el-option>
+  </el-select>
+  <span style="float:right;">秒</span>
+ <el-input-number  style="float:right;" v-model="deeptime"  @change="mydeeptime"  :min="30" :step="10" label="描述文字"></el-input-number>
+
+</el-form-item>
+  
+</template>
 
 
 
@@ -63,9 +87,9 @@
 
 
 <el-card class="box-card cf" style="margin-top:30px;">
-    <p>任务耗时：<span class="num">{{totaltime}}</span>秒&nbsp;&nbsp;单次消费：<span class="num">{{perint}}</span>积分&nbsp;&nbsp;合计消费：<span class="num">{{totalint}}</span>积分</p>
-    <el-button  @click="submit" style="float:right;" type="danger">发布任务</el-button>
-  </el-card>
+	  <p>任务耗时：<span class="num">{{totaltime}}</span>秒&nbsp;&nbsp;单次消费：<span class="num">{{perint}}</span>积分&nbsp;&nbsp;合计消费：<span class="num">{{totalint}}</span>积分</p>
+	  <el-button  @click="submit" style="float:right;" type="danger">发布任务</el-button>
+	</el-card>
 
 </el-form>
 
@@ -76,14 +100,14 @@
 </template>
 
 <script type="text/javascript">
-import LiveTask from '../LiveTask.vue'
+import Task from '../Task.vue'
 export default {
     data() {
       return {
            form:{},
            taskname:"",     //任务名称，可不填
            link:"",         //商品链接 必填
-           radio4: 'sub',   //任务类型
+           radio4: 'search',   //任务类型
            totalnum:100,    //每天任务量
            date:[Date.now(),Date.now()],         //日期
            day:1,           //天数
@@ -144,7 +168,7 @@ export default {
     },
     props:[],
     components:{
-     LiveTask
+     Task
     },
     computed:{
       totaltask:function(){    //总任务量
@@ -156,12 +180,12 @@ export default {
      perint:function(){
        switch(this.radio4){
           
-       case "sub":
-          return 56;
-       case "like" :
-          return 20; 
-       case "live" :
-          return 8; 
+       case "search":
+          return Math.round((this.totaltime/5)*2.5*0.3)+56;
+       case "product" :
+          return Math.round((this.totaltime/5)*2.5*0.3)+47; 
+       case "shop" :
+          return Math.round((this.totaltime/5)*2.5*0.3)+47; 
        }
     },
     totalint:function(){
@@ -180,20 +204,16 @@ export default {
      },
      radio4:function(newr,oldr){
 
-     },
-     totalnum:function(nv,ov){
-      console.log(  this.$refs.task)
-          this.$refs.task.num = nv
      }
     },
 
     methods: {
     
-       subdata() {
+      subdata() {
        var tasks = this.$refs.task;
        var len = tasks.length;
-       var keywords =this.link;
-     /*   if(this.link==""){
+       var keywords = []
+        if(this.link==""){
           this.showInfo("请输入商品链接")
           return false;
         }
@@ -211,8 +231,7 @@ export default {
         }
         }else{
           keywords = false;
-        }*/
-
+        }
      
         var mydate = new Date(this.date[0]);
         return {
@@ -241,6 +260,7 @@ export default {
       if(!res){
         return;
       }
+      res['surl']      = "https://www.jd.com/";  //入口
       res['totalnum'] = this.totalnum;  //每天任务量
       res['totaltime'] =  this.totaltime;
       res['totalint']  =  this.totalint;
@@ -277,7 +297,7 @@ export default {
    
      },
       mynum(num){
-         this.totalnum =num;
+         this.totalnum +=num;
 
       },
     //  myviewtime(time){

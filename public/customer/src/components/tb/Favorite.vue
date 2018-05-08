@@ -31,8 +31,9 @@
   <el-form-item label="任务名称">
     <el-input v-model="taskname" placeholder="输入任务名称(可不填)" ></el-input>
   </el-form-item>
-    <el-form-item label="链接">
-    <el-input v-model="link" placeholder="输入商品链接（或淘口令）" ></el-input>
+  <el-form-item label="链接" >
+    <el-input  v-if="radio4!='shop'" v-model="link" placeholder="输入商品链接（或淘口令)" ></el-input>
+    <el-input  v-else   v-model="link" placeholder="输入店铺链接" ></el-input>
   </el-form-item>
 
 
@@ -181,11 +182,11 @@ export default {
        switch(this.radio4){
           
        case "search":
-          return Math.round((this.totaltime/5)*2.5*0.3);
+          return Math.round((this.totaltime/5)*2.5*0.3)+56;
        case "product" :
-          return Math.round((this.totaltime/5)*2.5*0.7); 
+          return Math.round((this.totaltime/5)*2.5*0.3)+47; 
        case "shop" :
-          return Math.round((this.totaltime/5)*2.5*0.7); 
+          return Math.round((this.totaltime/5)*2.5*0.3)+47; 
        }
     },
     totalint:function(){
@@ -217,7 +218,8 @@ export default {
           this.showInfo("请输入商品链接")
           return false;
         }
-        for(var i=0;i<len;i++){
+        if(len > 0){
+            for(var i=0;i<len;i++){
           if(tasks[i].keyword==""){
           this.showInfo("请输入搜索的关键字")
           return false;
@@ -228,6 +230,10 @@ export default {
             period:tasks[i].period
           })
         }
+        }else{
+          keywords = false;
+        }
+     
         var mydate = new Date(this.date[0]);
         return {
          link:this.link,
@@ -255,6 +261,7 @@ export default {
       if(!res){
         return;
       }
+      res['totalnum'] = this.totalnum;  //每天任务量
       res['totaltime'] =  this.totaltime;
       res['totalint']  =  this.totalint;
       const loading = this.$loading({    //放 loading
@@ -302,7 +309,7 @@ export default {
         }
     },
       changetype(type){
-        if(type!="view"){
+        if(type=="search"){
           this.rnum()
         }
        //  this.$emit("changetype",type)
@@ -361,7 +368,7 @@ export default {
     }
       
     }
-  }
+  };
 
 </script>
 

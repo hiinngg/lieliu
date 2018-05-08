@@ -1,5 +1,6 @@
 import App from '../App.vue';
 import Tb from '../components/Tb.vue';
+import Jd from '../components/Jd.vue';
 import Order from '../components/Order.vue';
 import Flow from '../components/tb/Flow.vue';
 
@@ -13,5 +14,9 @@ export default [
     { path: '/order',
       // You could also have named views at tho top
       component:Order,
+    },
+     { path: '/jd',
+      // You could also have named views at tho top
+      component:Jd,
     }
   ]

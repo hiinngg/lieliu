@@ -1,3 +1,4 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:75:"D:\wamp3\wamp64\www\lieliu\public/../application/admin\view\news\index.html";i:1525774822;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -12,18 +13,18 @@
 }
 </style>
 
-<body  style="scroll-x:scroll;padding:15px;">
-<!-- 	<blockquote class="layui-elem-quote flex-row">
-		<input style="width: 200px; margin-right: 15px;" type="text"
-			name="keyword" placeholder="请输入新闻名" autocomplete="off"
-			class="layui-input">
-		<button class="layui-btn articleSearch" >
-			<i class="layui-icon">&#xe615;</i>查询
+<body  style="scroll-x:scroll;">
+	<blockquote class="layui-elem-quote flex-row">
+	<!-- 	<input style="width: 200px; margin-right: 15px;" type="text"
+		name="keyword" placeholder="请输入新闻名" autocomplete="off"
+		class="layui-input">
+	<button class="layui-btn articleSearch" >
+		<i class="layui-icon">&#xe615;</i>查询
+	</button> -->
+		<button class="layui-btn layui-btn-normal add" data-url="<?php echo url('create'); ?>">
+			<i class="layui-icon">&#xe654;</i>新增资讯
 		</button>
-		<button class="layui-btn layui-btn-normal add" data-url="{:url('create')}">
-			<i class="layui-icon">&#xe654;</i>新增新闻
-		</button>
-		<button class="layui-btn layui-btn-danger">
+<!-- 		<button class="layui-btn layui-btn-danger">
 			<i class="layui-icon">&#xe640;</i>批量删除
 		</button> -->
 		<button class="layui-btn " onclick="refresh()">
@@ -32,15 +33,15 @@
 	</blockquote>
 		
 	
-    {present name="none"}
+    <?php if(isset($none)): ?>
 	<div style="position: absolute; left: 50%; top:50%;margin-top:-30px; margin-left:-63px; text-align: center;">
 			<i class="layui-icon" style="font-size: 36px;color: #009688;">&#xe69c;</i>
 			<p>这里一篇新闻都没有</p>			
 		</div>
-		{else/}
+		<?php else: ?>
 		<table class="layui-table"  id="table"  lay-filter="table" style="width:auto;" >
 	    </table>
-	{/present}
+	<?php endif; ?>
     <script src="/static/layui/layui.js"></script>
 	<script type="text/javascript">
 	var tranStatus={
@@ -52,18 +53,19 @@
 			var table = layui.table;
 			var layer=layui.layer;		
 			var form = layui.form
-		{notpresent name="none"}
+		<?php if(!isset($none)): ?>
 			var init= layer.load(2, {shade: false});
 		var articleTable = table.render({
 			        elem:"#table",	
 			       
-			        url: "{:url('orderlist')}",
+			        url: "<?php echo url('index'); ?>",
 			        cols:[[
 			         {checkbox: true},
-			         {field: 'orderid', title: '编号',type:"numbers" },
-			         {field: 'tel', title: '用户' },
-			         {field: 'integrate', title: '充值金额'},
+			         {field: 'newsid', title: '编号',type:"numbers" },
+			         {field: 'name', title: '标题' },
+			         {field: 'status', title: '状态',templet: '#statusTpl' },
 			         {field: 'createtime', title: '创建时间' },
+			         {field: 'score', title: '操作', width:250, toolbar: '#bar'}
 			        ]],
 				   page:true,
 				   done: function(res, curr, count){ //res:返回的数据  curr:当前页码  count：数据总量
@@ -89,7 +91,7 @@
 			 })
 			 
 			 
-			{/notpresent}
+			<?php endif; ?>
 	
 			
 				$(".add").on("click",function(){			
@@ -123,7 +125,7 @@
 
 					  } else if(layEvent === 'del'){ //删除
 					    layer.confirm('确定删除该新闻么', function(index){
-					    	  _ajax("{:url('delete')}",{newsid:data.newsid},dtd)
+					    	  _ajax("<?php echo url('delete'); ?>",{newsid:data.newsid},dtd)
 							  dtd.done(function(){
 								  obj.del(); 
 								  layer.close(index);
@@ -140,7 +142,7 @@
 						    });
 					    
 					  }else if(layEvent === 'change2on'){
-						  _ajax("{:url('statusChange')}",{newsid:data.newsid,status:1},dtd)
+						  _ajax("<?php echo url('statusChange'); ?>",{newsid:data.newsid,status:1},dtd)
 						  dtd.done(function(){
 							  $(tr).find("button.on").get(0).outerHTML='<button class="layui-btn layui-btn-warm layui-btn-xs off" lay-event="change2off">撤销发布</button>'
 								  obj.update({
@@ -149,7 +151,7 @@
 						  })
 							
 					  }else if(layEvent === 'change2off'){
-						  _ajax("{:url('statusChange')}",{newsid:data.newsid,status:0},dtd)
+						  _ajax("<?php echo url('statusChange'); ?>",{newsid:data.newsid,status:0},dtd)
 						 dtd.done(function(){
 					     $(tr).find("button.off").get(0).outerHTML='<button class="layui-btn layui-btn-xs on" lay-event="change2on">发布</button>'
 						  obj.update({

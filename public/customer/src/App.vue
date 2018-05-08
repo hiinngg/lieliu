@@ -37,10 +37,12 @@
         <span slot="title">淘宝任务</span>
       </el-menu-item>
     </router-link> 
+   <router-link to="/jd">
       <el-menu-item index="2">
         <i class="el-icon-setting"></i>
-        <span slot="title">京东任务</span>
+        <router-link to="/jd" slot="title">京东任务</router-link>
       </el-menu-item>
+   </router-link>
    <router-link to="/order">
       <el-menu-item index="4">
         <i class="el-icon-setting"></i>
@@ -132,7 +134,7 @@ import HelloWorld from './components/HelloWorld.vue'
 import Task from './components/Task.vue'
 import Tb from './components/Tb.vue';
 import Order from './components/Order.vue'
-
+import Jd    from './components/Jd.vue'
 
 
 

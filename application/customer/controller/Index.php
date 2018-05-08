@@ -14,8 +14,20 @@ use GuzzleHttp\Psr7\Request;
 class Index extends  Controller{
 
 
+/*
+0=APP搜索，1=PC搜索id，2直访店铺，3直访商品，6店铺收藏APP端，7商品收藏APP端，9搜索收藏app端，10 直接加购，11搜索加购
+12直播关注
+13微淘点赞
+14直播观看人数
+  
+70京东流量
+71京东商品收藏
+72京东店铺关注
+73京东加购
 
-    protected $tran = ['app'=>0,'pc'=>1,'view'=>3];
+*/
+    protected $tran = ['app'=>0,'pc'=>1,'view'=>3,'search'=>9,'product'=>7,'shop'=>6,'searchcart'=>11,'cart'=>10,'sub'=>12,'like'=>13,'live'=>14,'jdflow'=>70,'product'=>71,
+    'shop'=>72,'jdcart'=>73];
 
 
     public function _initialize(){
@@ -87,7 +99,10 @@ class Index extends  Controller{
             $base_uri = 'http://api.lieliu.com:1024/ll/task_add';
             $params = [];
             $orderids = [];
-            foreach( $post['keywords'] as $k=>$v){
+
+
+            if(is_array($post['keywords'])){
+                foreach( $post['keywords'] as $k=>$v){
                 $param = [];
                 $param = [
                     'username'         =>U_NAME,
@@ -98,7 +113,7 @@ class Index extends  Controller{
                     'type'             =>$this->tran[$post['radio4']],
                     'target'           =>$post['link'],
                     'keyword'          =>$v['keyword'],
-                    'sUrl'             =>'https://www.taobao.com',
+                    'sUrl'             => isset($post['surl']) ? $post['surl'] : 'https://www.taobao.com',
                     'goodsBrowsingTime'=>$post['viewtime'],
                     'format'           =>'json',
                     'timestamp'        =>strtotime(date("Y-m-d H:i:s")),
@@ -114,7 +129,38 @@ class Index extends  Controller{
                 $str.="signkey=". $this->signkey('/ll/task_add',$param);
                 array_push($orderids,$param['id']);
                 array_push($params,$str);
+              }
+            }else{
+               $param = [];
+                $param = [
+                    'username'         =>U_NAME,
+                    'id'               =>orderid(),
+                    'count'            =>$post['totalnum'],
+                    'hour'             =>"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                    'begin_time'       =>date("Y-m-d",$post['date']),
+                    'type'             =>$this->tran[$post['radio4']],
+                    'target'           =>$post['link'],
+                    'sUrl'             =>'https://www.taobao.com',
+                    'goodsBrowsingTime'=>$post['viewtime'],
+                    'format'           =>'json',
+                    'timestamp'        =>strtotime(date("Y-m-d H:i:s")),
+                    'ver'              =>4
+
+                ];
+                $param  =  $this->adddeeptime($param,$post);
+                if($post['keywords']!=""){
+                  $param['keyword'] = $post['keywords'];
+                }
+                ksort($param);
+                $str = $base_uri."?";
+                foreach( $param as $j=>$k){
+                    $str.=$j."=".urlencode($k)."&";
+                }
+                $str.="signkey=". $this->signkey('/ll/task_add',$param);
+                array_push($orderids,$param['id']);
+                array_push($params,$str);
             }
+          
     		//请求第三方接口
             $success=0;
             $error=0;

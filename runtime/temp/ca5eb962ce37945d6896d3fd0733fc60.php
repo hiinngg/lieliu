@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:68:"D:\wamp\www\lieliu\public/../application/index\view\index\index.html";i:1524997993;s:27:"./template/indexlayout.html";i:1524997993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\index.html";i:1525771055;s:27:"./template/indexlayout.html";i:1525396007;}*/ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -140,8 +140,8 @@ height:1px;
 <div class="media">
 	  <img class="align-self-center mr-3" src="/static/images/green.png" alt="Generic placeholder image">
 	  <div  class="media-body">
-	    <strong class="mt-0">真实访问量</strong>
-	    <p style="font-size:14px;">完全自然人工游览，不同地区IP真实流量，安全可靠</p>
+	    <strong class="mt-0">升店铺权重</strong>
+	    <p style="font-size:14px;">百万人同时在线，深度访问 增加店铺宝贝收藏，提高排名</p>
 	  </div>
 	</div>
 </div>
@@ -149,8 +149,8 @@ height:1px;
 <div class="media">
 	  <img class="align-self-center mr-3" src="/static/images/yellow.png" alt="Generic placeholder image">
 	  <div  class="media-body">
-	    <strong class="mt-0">真实访问量</strong>
-	    <p style="font-size:14px;">完全自然人工游览，不同地区IP真实流量，安全可靠</p>
+	    <strong class="mt-0">提高点击率</strong>
+	    <p style="font-size:14px;">专业的关键词优化，提高点击率 有点击率才会有流量</p>
 	  </div>
 	</div>
 </div>
@@ -158,8 +158,8 @@ height:1px;
 <div class="media">
 	  <img class="align-self-center mr-3" src="/static/images/red.png" alt="Generic placeholder image">
 	  <div  class="media-body">
-	    <strong class="mt-0">真实访问量</strong>
-	    <p style="font-size:14px;">完全自然人工游览，不同地区IP真实流量，安全可靠</p>
+	    <strong class="mt-0">打造爆款</strong>
+	    <p style="font-size:14px;"></p>
 	  </div>
 	</div>
 </div>
@@ -228,21 +228,7 @@ height:1px;
 
 </div>
 
- <div class="card mr-3" style="height:360px;">
-  <img class="card-img-top" src="/static/images/talk.png" alt="Card image cap">
-   <div class="card-header d-flex align-items-center justify-content-between" >
-    <strong style="color:#d9363a;" class="my-0">用户留言</strong>
-    <p class="my-0">查看更多<span class="ml-2 fa fa-angle-right"></span> <span style="color:#d9363a;" class="fa fa-users"></span></p>
-  </div>
-  <div class="card-body">
-	<ul class="list-group list-group-flush" style="font-size:14px;">
-	  <li class="list-group-item p-0 text-truncate"><p class="d-flex justify-content-between mb-0"><span>4984*@qq.com</span><span>2018.4.7</span></p>Cras justo odio</li>
-	  <li class="list-group-item p-0 text-truncate"><p class="d-flex justify-content-between mb-0"><span>4984*@qq.com</span><span>2018.4.7</span></p>Cras justo odio</li>
-      <li class="list-group-item p-0 text-truncate"><p class="d-flex justify-content-between mb-0"><span>4984*@qq.com</span><span>2018.4.7</span></p>Cras justo odio</li>
-	</ul>
-</div>
 
-</div>
 
 
 

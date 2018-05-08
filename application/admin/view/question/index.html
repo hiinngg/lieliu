@@ -26,6 +26,9 @@
 		<button class="layui-btn layui-btn-danger">
 			<i class="layui-icon">&#xe640;</i>批量删除
 		</button> -->
+	   <button class="layui-btn layui-btn-normal add" data-url="{:url('edit')}">
+			<i class="layui-icon">&#xe654;</i>新增问答
+		</button>
 		<button class="layui-btn " onclick="refresh()">
 			刷新
 		</button>
@@ -60,10 +63,9 @@
 			        cols:[[
 			         {checkbox: true},
 			         {field: 'newsid', title: '编号',type:"numbers" },
-			         {field: 'title', title: '标题' },
-			         {field: 'status', title: '状态',templet: '#statusTpl' },
+			         {field: 'ask', title: '问题' },
+			         {field: 'question', title: '回答' },
 			         {field: 'createtime', title: '创建时间' },
-			         {field: 'score', title: '操作', width:250, toolbar: '#bar'}
 			        ]],
 				   page:true,
 				   done: function(res, curr, count){ //res:返回的数据  curr:当前页码  count：数据总量
@@ -189,14 +191,7 @@
 		
 	</script>
 <script type="text/html" id="bar">
-  <button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
-  {{#  if(d.status == 1){ }}
-   <button class="layui-btn layui-btn-warm layui-btn-xs off" lay-event="change2off">撤销发布</button>
-  {{#  } else { }}
-    <button class="layui-btn layui-btn-xs on" lay-event="change2on">发布</button>
-  {{#  } }}
 
-  <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
  
   <!-- 这里同样支持 laytpl 语法，如： -->
 

@@ -1,3 +1,4 @@
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:79:"D:\wamp3\wamp64\www\lieliu\public/../application/admin\view\question\index.html";i:1525773668;}*/ ?>
 <!DOCTYPE html>
 <html>
 <head>
@@ -20,27 +21,30 @@
 		<button class="layui-btn articleSearch" >
 			<i class="layui-icon">&#xe615;</i>查询
 		</button>
-		<button class="layui-btn layui-btn-normal add" data-url="{:url('create')}">
+		<button class="layui-btn layui-btn-normal add" data-url="<?php echo url('create'); ?>">
 			<i class="layui-icon">&#xe654;</i>新增新闻
 		</button>
 		<button class="layui-btn layui-btn-danger">
 			<i class="layui-icon">&#xe640;</i>批量删除
 		</button> -->
+	   <button class="layui-btn layui-btn-normal add" data-url="<?php echo url('edit'); ?>">
+			<i class="layui-icon">&#xe654;</i>新增问答
+		</button>
 		<button class="layui-btn " onclick="refresh()">
 			刷新
 		</button>
 	</blockquote>
 		
 	
-    {present name="none"}
+    <?php if(isset($none)): ?>
 	<div style="position: absolute; left: 50%; top:50%;margin-top:-30px; margin-left:-63px; text-align: center;">
 			<i class="layui-icon" style="font-size: 36px;color: #009688;">&#xe69c;</i>
-			<p>这里一篇新闻都没有</p>			
+			<p>这里一点内容都没有</p>			
 		</div>
-		{else/}
+		<?php else: ?>
 		<table class="layui-table"  id="table"  lay-filter="table" style="width:auto;" >
 	    </table>
-	{/present}
+	<?php endif; ?>
     <script src="/static/layui/layui.js"></script>
 	<script type="text/javascript">
 	var tranStatus={
@@ -52,17 +56,16 @@
 			var table = layui.table;
 			var layer=layui.layer;		
 			var form = layui.form
-		{notpresent name="none"}
+		<?php if(!isset($none)): ?>
 			var init= layer.load(2, {shade: false});
 		var articleTable = table.render({
 			        elem:"#table",	
-			       
-			        url: "{:url('orderlist')}",
+			        url: "<?php echo url('index'); ?>",
 			        cols:[[
 			         {checkbox: true},
-			         {field: 'orderid', title: '编号',type:"numbers" },
-			         {field: 'tel', title: '用户' },
-			         {field: 'integrate', title: '充值金额'},
+			         {field: 'newsid', title: '编号',type:"numbers" },
+			         {field: 'ask', title: '问题' },
+			         {field: 'question', title: '回答' },
 			         {field: 'createtime', title: '创建时间' },
 			        ]],
 				   page:true,
@@ -89,7 +92,7 @@
 			 })
 			 
 			 
-			{/notpresent}
+			<?php endif; ?>
 	
 			
 				$(".add").on("click",function(){			
@@ -101,9 +104,6 @@
 					
 				})
 			
-				
-
-
 				table.on('tool(table)', function(obj){ //注：tool是工具条事件名，test是table原始容器的属性 lay-filter="对应的值"
 					  var data = obj.data; //获得当前行数据
 					  var layEvent = obj.event; //获得 lay-event 对应的值（也可以是表头的 event 参数对应的值）
@@ -122,8 +122,8 @@
 						    });
 
 					  } else if(layEvent === 'del'){ //删除
-					    layer.confirm('确定删除该新闻么', function(index){
-					    	  _ajax("{:url('delete')}",{newsid:data.newsid},dtd)
+					    layer.confirm('确定删除该内容么', function(index){
+					    	  _ajax("<?php echo url('delete'); ?>",{newsid:data.newsid},dtd)
 							  dtd.done(function(){
 								  obj.del(); 
 								  layer.close(index);
@@ -140,7 +140,7 @@
 						    });
 					    
 					  }else if(layEvent === 'change2on'){
-						  _ajax("{:url('statusChange')}",{newsid:data.newsid,status:1},dtd)
+						  _ajax("<?php echo url('statusChange'); ?>",{newsid:data.newsid,status:1},dtd)
 						  dtd.done(function(){
 							  $(tr).find("button.on").get(0).outerHTML='<button class="layui-btn layui-btn-warm layui-btn-xs off" lay-event="change2off">撤销发布</button>'
 								  obj.update({
@@ -149,7 +149,7 @@
 						  })
 							
 					  }else if(layEvent === 'change2off'){
-						  _ajax("{:url('statusChange')}",{newsid:data.newsid,status:0},dtd)
+						  _ajax("<?php echo url('statusChange'); ?>",{newsid:data.newsid,status:0},dtd)
 						 dtd.done(function(){
 					     $(tr).find("button.off").get(0).outerHTML='<button class="layui-btn layui-btn-xs on" lay-event="change2on">发布</button>'
 						  obj.update({
@@ -192,14 +192,7 @@
 		
 	</script>
 <script type="text/html" id="bar">
-  <button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
-  {{#  if(d.status == 1){ }}
-   <button class="layui-btn layui-btn-warm layui-btn-xs off" lay-event="change2off">撤销发布</button>
-  {{#  } else { }}
-    <button class="layui-btn layui-btn-xs on" lay-event="change2on">发布</button>
-  {{#  } }}
 
-  <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
  
   <!-- 这里同样支持 laytpl 语法，如： -->
 

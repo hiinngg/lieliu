@@ -57,11 +57,12 @@
 		var articleTable = table.render({
 			        elem:"#table",	
 			       
-			        url: "{:url('orderlist')}",
+			        url: "{:url('index')}",
 			        cols:[[
 			         {checkbox: true},
 			         {field: 'userid', title: '编号',type:"numbers" },
 			         {field: 'tel', title: '手机' },
+			          {field: 'integrate', title: '积分' },
 			         {field: 'createtime', title: '创建时间' },
 			         {field: 'score', title: '操作', width:250, toolbar: '#bar'}
 			        ]],
@@ -72,6 +73,7 @@
 				});
 			 
 			 
+
 			 $(".articleSearch").on("click",function(){
 				 var keyword=$("input[name='keyword']").val();
 				 if(keyword==""){
@@ -129,25 +131,56 @@
 								  layer.close(index);
 							  })
 					    });
-					  } else if(layEvent === 'edit'){ //编辑
+					  } else if(layEvent === 'log'){ //编辑
 						  layer.open({
 						      type: 2,
 						      title: '内容编辑',
 						      shadeClose: true,
 						      shade: false,
 						      area: ['100%', '100%'],
-						      content: "edit?id="+data.newsid
+						      content: "log?userid="+data.userid
 						    });
 					    
-					  }else if(layEvent === 'change2on'){
-						  _ajax("{:url('statusChange')}",{newsid:data.newsid,status:1},dtd)
-						  dtd.done(function(){
-							  $(tr).find("button.on").get(0).outerHTML='<button class="layui-btn layui-btn-warm layui-btn-xs off" lay-event="change2off">撤销发布</button>'
-								  obj.update({
-									 status:1
-						       });
-						  })
-							
+					  }else if(layEvent === 'recharge'){
+
+                         layer.open({
+                           type:1,
+                           content: '<div style="margin:15px;"><input type="number"  class="layui-input recharge"  /></div>',
+                           btn: ['确定', '取消'],
+                           title:'请输入充值金额'
+                            ,yes: function(index, layero){
+                            	if($(layero).find(".recharge").val()==""){
+                                   layer.msg("请输入金额")
+                                   layer.close(index)
+                                   return;
+                            	}
+						    var load = layer.load(1, {
+							 shade: [0.1,'#fff'] //0.1透明度的白色背景
+						   });
+						   $.ajax({
+                           url:"{:url('recharge')}",
+                           data:{integrate:$(layero).find(".recharge").val(),userid:data.userid},
+                           type:"post",
+                           success:function(data){
+                           	layer.closeAll();
+                             if(data==1){
+                             	layer.msg("充值成功")
+                             	articleTable.reload();
+                             }
+                           }
+
+
+                        })
+						  }
+						  ,cancel: function(){ 
+						    //右上角关闭回调
+						    
+						    //return false 开启该代码可禁止点击该按钮关闭
+						  }
+						});
+
+   
+						   	
 					  }else if(layEvent === 'change2off'){
 						  _ajax("{:url('statusChange')}",{newsid:data.newsid,status:0},dtd)
 						 dtd.done(function(){
@@ -155,7 +188,7 @@
 						  obj.update({
 							status:0
 						 });
-						  })
+						})
 					
 					  }
 					});
@@ -192,14 +225,9 @@
 		
 	</script>
 <script type="text/html" id="bar">
-  <button class="layui-btn layui-btn-xs" lay-event="edit">编辑</button>
-  {{#  if(d.status == 1){ }}
-   <button class="layui-btn layui-btn-warm layui-btn-xs off" lay-event="change2off">撤销发布</button>
-  {{#  } else { }}
-    <button class="layui-btn layui-btn-xs on" lay-event="change2on">发布</button>
-  {{#  } }}
+  <button class="layui-btn layui-btn-xs" lay-event="recharge">充值</button>
+  <button class="layui-btn layui-btn-xs" lay-event="log">充值记录</button>
 
-  <button class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</button>
  
   <!-- 这里同样支持 laytpl 语法，如： -->
 

@@ -1,21 +1,9 @@
 <template>
 <el-form-item label="搜素关键词" class="cf" >
   <el-row :gutter="10">
-   <el-col :md="{span:11}">
-    <el-input placeholder="请输入关键词"  v-model="keyword"></el-input>
-   </el-col>
-     <el-col  :md="{span:6}"    > 
+     <el-col    > 
      <el-input-number  v-model.lazy="num"  :min="1" label="描述文字"></el-input-number>
      </el-col>
-     <el-col  :md="{span:2}"   > 
-     <el-checkbox v-model="periodShow">时段</el-checkbox>
-    </el-col> 
-    <el-col :md="{span:3}"  >
-      <el-button  v-if="keywordlistLength>1" class="el-icon-minus" @click="taskdec(mykey)" size="mini"  type="danger" circle ></el-button>
-     <el-button  class="el-icon-plus"  @click="taskinc" type="success" circle  size="mini" ></el-button>
-     </el-col>
-
-
     </el-row>
 
     <div  v-if="periodShow"   class="cf" style="width:100%;padding:15px 80px;box-sizing:border-box;line-height:2;">

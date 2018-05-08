@@ -208,8 +208,7 @@ export default {
     },
 
     methods: {
-    
-      subdata() {
+   subdata() {
        var tasks = this.$refs.task;
        var len = tasks.length;
        var keywords = []
@@ -217,7 +216,8 @@ export default {
           this.showInfo("请输入商品链接")
           return false;
         }
-        for(var i=0;i<len;i++){
+        if(len > 0){
+            for(var i=0;i<len;i++){
           if(tasks[i].keyword==""){
           this.showInfo("请输入搜索的关键字")
           return false;
@@ -228,6 +228,10 @@ export default {
             period:tasks[i].period
           })
         }
+        }else{
+          keywords = false;
+        }
+     
         var mydate = new Date(this.date[0]);
         return {
          link:this.link,
@@ -255,6 +259,7 @@ export default {
       if(!res){
         return;
       }
+      res['totalnum'] = this.totalnum;  //每天任务量
       res['totaltime'] =  this.totaltime;
       res['totalint']  =  this.totalint;
       const loading = this.$loading({    //放 loading
@@ -361,8 +366,7 @@ export default {
     }
       
     }
-  }
-
+  };
 </script>
 
 <style type="text/css">

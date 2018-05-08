@@ -2,6 +2,7 @@
 namespace  app\admin\controller;
 
 use think\Controller;
+use think\Db;
 
 
 class Order extends  Controller{
@@ -9,14 +10,13 @@ class Order extends  Controller{
   
    public function orderlist($page="",$limit=""){
        
-       $order = new Order();
-       $count = Db::name("param")->count();
+       $count = Db::name("order")->count();
        if ($count == 0) {
            $this->assign("none", "none");
        }
        
        if ($this->request->isAjax()) {
-           $result = Db::name("param")->page($page, $limit)->select();
+           $result = Db::view("order")->view("user","tel","user.userid = order.userid")->page($page, $limit)->order("createtime desc")->select();
            
            return json([
                'code' => 0,

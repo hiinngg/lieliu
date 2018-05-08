@@ -241,6 +241,7 @@ export default {
       if(!res){
         return;
       }
+      res['surl']      = "https://www.jd.com/";  //入口
       res['totalnum'] = this.totalnum;  //每天任务量
       res['totaltime'] =  this.totaltime;
       res['totalint']  =  this.totalint;

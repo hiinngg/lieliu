@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:68:"D:\wamp\www\lieliu\public/../application/admin\view\index\index.html";i:1524997993;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:1:{s:76:"D:\wamp3\wamp64\www\lieliu\public/../application/admin\view\index\index.html";i:1525772038;}*/ ?>
 <!DOCTYPE html>
 <html>
 
@@ -64,17 +64,23 @@
 					<a href="#" data-url="">后台首页</a>
 				</li>
 				<li class="layui-nav-item ">
-					<a href="#" data-url="">用户管理</a>
+					<a href="#" data-url="<?php echo url('user/index'); ?>">用户管理</a>
 				</li>
 				<li class="layui-nav-item ">
 					<a href="javascript:;" data-url="<?php echo url('order/orderlist'); ?>">订单管理</a>
 				</li>
 					<li class="layui-nav-item ">
-					<a href="#" data-url="">任务管理</a>
+					<a href="#" data-url="<?php echo url('task/index'); ?>">任务管理</a>
 				</li>
 				</li>
-					<li class="layui-nav-item ">
+			    <li class="layui-nav-item ">
 					<a href="#" data-url="<?php echo url('question/index'); ?>">问答管理</a>
+				</li>
+				<li class="layui-nav-item ">
+					<a href="#" data-url="<?php echo url('news/index'); ?>">资讯管理</a>
+				</li>
+			   <li class="layui-nav-item ">
+					<a href="#" data-url="<?php echo url('video/index'); ?>">视频教程管理</a>
 				</li>
 			</ul>
 		</div>

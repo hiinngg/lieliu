@@ -1,22 +1,12 @@
 <template>
-<el-form-item label="搜素关键词" class="cf" >
-  <el-row :gutter="10">
-   <el-col :md="{span:11}">
-    <el-input placeholder="请输入关键词"  v-model="keyword"></el-input>
-   </el-col>
-     <el-col  :md="{span:6}"    > 
-     <el-input-number  v-model.lazy="num"  :min="1" label="描述文字"></el-input-number>
-     </el-col>
-     <el-col  :md="{span:2}"   > 
-     <el-checkbox v-model="periodShow">时段</el-checkbox>
-    </el-col> 
-    <el-col :md="{span:3}"  >
-      <el-button  v-if="keywordlistLength>1" class="el-icon-minus" @click="taskdec(mykey)" size="mini"  type="danger" circle ></el-button>
-     <el-button  class="el-icon-plus"  @click="taskinc" type="success" circle  size="mini" ></el-button>
-     </el-col>
+
+  <el-form-item label="特殊资源">
+    <el-radio-group v-model="periodShow" size="medium">
+      <el-radio :label="false">自动当天完成</el-radio>
+      <el-radio :label="true">手动指定时段</el-radio>
+    </el-radio-group>
 
 
-    </el-row>
 
     <div  v-if="periodShow"   class="cf" style="width:100%;padding:15px 80px;box-sizing:border-box;line-height:2;">
     <el-row>
@@ -35,8 +25,7 @@
       <el-radio-button label="curve">模拟流量</el-radio-button>
       <el-radio-button label="self">自定义</el-radio-button>
   </el-radio-group>
-    </div>
-  
+
 
 
 
@@ -49,9 +38,14 @@
     <el-button type="primary" @click="dialogVisible = false">确 定</el-button>
   </span>
 </el-dialog>
-
-
+    </div>
+  
   </el-form-item>
+
+
+
+
+
 
    
   
@@ -79,13 +73,13 @@ created:function(){
 },
 watch:{
   num:function(newnum,oldnum){
- if(!newnum||newnum==""||newnum==0){
+  if(!newnum||newnum==""||newnum==0){
   //防止用户不正当输入
   return this.num = 1;
  }
     this.period  = this.setTaskCount(newnum,this.periodType,this.weight)
     this.percentChange()
-    this.$emit('mynum',newnum-oldnum)
+    this.$emit('mynum',newnum)
   },
   periodType:function(p){
     if(p&&p!==""){
@@ -93,6 +87,14 @@ watch:{
      this.percentChange()
     }
     
+  },
+  periodShow:function(newp){
+    console.log(newp)
+    if(newp===false){
+       this.periodType =  "today"
+       this.period  = this.setTaskCount(this.num,  this.periodType)
+       this.percentChange()
+    }
   }
 },
 methods:{
