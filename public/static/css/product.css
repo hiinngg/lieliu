@@ -1,0 +1,37 @@
+.div-title {
+    float: left;
+    padding: 3px 0;
+}
+
+.div-title span {
+    font-size: 19px;
+    display: inline-block;
+    margin-right: 25px;
+    border: 1px solid #c3c3c3;
+    padding: 5px 24px;
+    border-radius: 5px;
+    /* width: 84px; */
+    text-align: center;
+    vertical-align: middle;
+}
+.div-title span:nth-last-child(2){
+    margin-right: 19px;
+}
+
+.dd-input {
+    margin-left: 0px;
+    margin: 10px 0px;
+}
+
+.dd-input .layui-input {
+    width: 100px;
+    display: inline-block;
+    margin-right: 25px;
+    border: 1px solid #c3c3c3;
+    border-radius: 5px;
+}
+
+dl.certListDl {
+    float: left;
+    padding: 3px 0;
+}
