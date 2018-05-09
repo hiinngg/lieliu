@@ -39,8 +39,8 @@ class Login extends Controller
 
             if(!empty($adminInfo)){
                 if($adminInfo["adminpass"]==md5($post['password'])){    //登录成功
-                    session("adminId", $adminInfo["adminid"]);
-                    session("adminUserName", $adminInfo["adminuser"]);
+                    session("adminid", $adminInfo["adminid"]);
+                    session("adminuser", $adminInfo["adminuser"]);
                     return 1;
                 }else{  //登录失败
                     return "密码错误";

@@ -17,7 +17,7 @@ class Common extends Controller
 
 
         
-      /*   if (!Session::has("adminuser")) {
+        if (!Session::has("adminuser")) {
 //            var_dump($_SESSION);
 //            var_dump(session_id());
             return $this->redirect('login/login');
@@ -25,6 +25,6 @@ class Common extends Controller
         }else{
 
             $this->assign("adminuser",Session::get("adminuser"));
-        } */
+        } 
     }
 }
