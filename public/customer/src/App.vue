@@ -90,8 +90,8 @@
 :close-on-press-escape="false"
   >
    <div style="display:flex;align-item:center;justify-content:center;">
-     <img src="wxpay.jpg" height="550" width="400" style="margin-right:15px;">
-     <img src="alipay.jpg" height="550" width="400">
+     <img src="/static/images/wxpay.jpg" height="550" width="400" style="margin-right:15px;">
+     <img src="/static/images/alipay.jpg" height="550" width="400">
    </div>
 </el-dialog>
 
