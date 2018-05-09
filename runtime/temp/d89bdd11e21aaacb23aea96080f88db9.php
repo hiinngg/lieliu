@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:75:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\help.html";i:1525771490;s:27:"./template/indexlayout.html";i:1525396007;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:75:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\help.html";i:1525833636;s:27:"./template/indexlayout.html";i:1525833583;}*/ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -44,8 +44,8 @@ body {
 background:#d9363a;
 color:#fff;
 }
- .card-header a{
-  color:#fff !important;
+.container a{
+  color:#000 ;
   text-decoration:none !important;
 }
 
@@ -55,7 +55,7 @@ color:#fff;
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand " href="#">LOGO</a>
+    <a class="navbar-brand " href="#"><img src="/static/images/logo.png"></a>
      <ul id="mynav" class="navbar-nav  my-0">
       <li class="nav-item   ">
         <a class="nav-link p-md-4" href="<?php echo url('index'); ?>">首页 <span class="sr-only">(current)</span></a>
@@ -74,8 +74,8 @@ color:#fff;
       </li>
     </ul>
     <div>
-      <button type="button" class="btn btn-danger mx-0"><span class="fa fa-user-o"> </span> 登录</button>
-      <button type="button" class="btn btn-outline-danger mx-0"><span class="fa fa-edit "></span> 注册</button>
+      <a  style="color:#fff;" class="btn btn-danger mx-0" role="button"  href="<?php echo url('customer/index/index'); ?>"><span class="fa fa-user-o"> </span> 登录</a>
+      <a  class="btn btn-outline-danger mx-0" role="button"  href="<?php echo url('customer/index/index'); ?>"><span class="fa fa-edit "></span> 注册</a>
     </div>
   </div>
 </nav>
@@ -89,16 +89,13 @@ color:#fff;
 <div class="card ">
   <div class="card-header">
        <strong>常见问题</strong>
-       <p class="mb-0 pull-right"><a href="<?php echo url('question'); ?>"><small>查看更多 </small></a><span class="fa fa-question-circle-o"></span></p>
+       <p class="mb-0 pull-right"><a href="<?php echo url('question'); ?>"><small style="color:#fff;">查看更多</small></a><span class="fa fa-question-circle-o"></span></p>
   </div>
   <div class="card-body">
     <ul class="list-unstyled">
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
+      <?php if(is_array($question) || $question instanceof \think\Collection || $question instanceof \think\Paginator): $i = 0; $__LIST__ = $question;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+      <li><a href="<?php echo url('question'); ?>"><?php echo $vo['ask']; ?></a></li>
+      <?php endforeach; endif; else: echo "" ;endif; ?>
     </ul>
   </div>
 </div>
@@ -111,14 +108,11 @@ color:#fff;
     <strong>电商咨询</strong>
   </div>
   <div class="card-body">
-   <div class="media">
-  <img class="align-self-center mr-3" src="..." alt="Generic placeholder image">
-  <div class="media-body">
-   <p class="d-flex justify-content-between mb-0"><span>4984*@qq.com</span><span>2018.4.7</span></p>
-   <p> Cras justo odio</p>
-   <span class="fa fa-eye pull-right"></span>
-  </div>
-   </div>
+  <ul class="list-group list-group-flush">
+    <?php if(is_array($news) || $news instanceof \think\Collection || $news instanceof \think\Paginator): $i = 0; $__LIST__ = $news;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+     <li class="list-group-item"><a href="<?php echo url('news','id='.$vo['newsid']); ?>"><?php echo $vo['name']; ?></a></li>
+    <?php endforeach; endif; else: echo "" ;endif; ?>
+</ul>
   </div>
 </div>
 </div>

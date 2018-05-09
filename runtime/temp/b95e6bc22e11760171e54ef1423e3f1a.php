@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:78:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\product.html";i:1524646300;s:27:"./template/indexlayout.html";i:1525396007;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:78:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\product.html";i:1524646300;s:27:"./template/indexlayout.html";i:1525833583;}*/ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -77,7 +77,7 @@ padding-left:58px;
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand " href="#">LOGO</a>
+    <a class="navbar-brand " href="#"><img src="/static/images/logo.png"></a>
      <ul id="mynav" class="navbar-nav  my-0">
       <li class="nav-item   ">
         <a class="nav-link p-md-4" href="<?php echo url('index'); ?>">首页 <span class="sr-only">(current)</span></a>
@@ -96,8 +96,8 @@ padding-left:58px;
       </li>
     </ul>
     <div>
-      <button type="button" class="btn btn-danger mx-0"><span class="fa fa-user-o"> </span> 登录</button>
-      <button type="button" class="btn btn-outline-danger mx-0"><span class="fa fa-edit "></span> 注册</button>
+      <a  style="color:#fff;" class="btn btn-danger mx-0" role="button"  href="<?php echo url('customer/index/index'); ?>"><span class="fa fa-user-o"> </span> 登录</a>
+      <a  class="btn btn-outline-danger mx-0" role="button"  href="<?php echo url('customer/index/index'); ?>"><span class="fa fa-edit "></span> 注册</a>
     </div>
   </div>
 </nav>

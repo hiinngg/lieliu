@@ -4,7 +4,7 @@
 <div id="#app" >
 	
 <el-menu    style="padding:0 240px;position:relative;display:flex;justify-content:flex-end;" :default-active="activeIndex" class="el-menu-demo"  background-color="#ffffff"  text-color="#000" active-text-color="#d9363a" mode="horizontal" >
-  <el-menu-item  index="5" class="hidden-sm-and-down" style="position:absolute;left:240px;"><img src="logo.png" alt="" width="71px" height="71px"/></el-menu-item>
+  <el-menu-item  index="5" class="hidden-sm-and-down" style="position:absolute;left:240px;"><img src="/static/images/logo.png" alt="" width="71px" height="71px"/></el-menu-item>
   <template v-if="!isvalid">
    <el-menu-item  index="6" @click="login"  class="hidden-sm-and-down"> <el-button type="primary" size="small">登录</el-button></el-menu-item>
    <el-menu-item index="7"   @click="register" class="hidden-sm-and-down"> <el-button type="primary" size="small" plain>注册</el-button></el-menu-item>
@@ -19,7 +19,7 @@
 	<el-row :gutter="20">
 	  <el-col :md="{span: 4}" >
 	  <div class="flex-column flex-align-center" >
-	     <img src="avastar.png" alt="" />
+	     <img src="/static/images/avastar.png" alt="" />
 	     <p style="font-size:12px;">
         <strong>积分：</strong>
         <span>{{integrate}}</span>

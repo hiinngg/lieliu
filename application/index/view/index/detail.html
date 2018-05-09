@@ -1,0 +1,12 @@
+{extend name="./template/indexlayout.html"}
+{block name="css"}
+img{
+  max-width:100%;
+}
+{/block}
+{block name="main"}
+<div class="container">
+<h3 class="text-center">{$res.name}</h3>
+<p>{$res.content}</p>
+</div>
+{/block}

@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\index.html";i:1525771055;s:27:"./template/indexlayout.html";i:1525396007;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\index.html";i:1525833598;s:27:"./template/indexlayout.html";i:1525833583;}*/ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -40,6 +40,10 @@ body {
 }
 
 
+a{
+  color:#000 ;
+  text-decoration:none !important;
+}
 .rline{
 width:200px;
 height:1px;
@@ -64,7 +68,7 @@ height:1px;
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <div class="container">
-    <a class="navbar-brand " href="#">LOGO</a>
+    <a class="navbar-brand " href="#"><img src="/static/images/logo.png"></a>
      <ul id="mynav" class="navbar-nav  my-0">
       <li class="nav-item  active ">
         <a class="nav-link p-md-4" href="<?php echo url('index'); ?>">首页 <span class="sr-only">(current)</span></a>
@@ -83,8 +87,8 @@ height:1px;
       </li>
     </ul>
     <div>
-      <button type="button" class="btn btn-danger mx-0"><span class="fa fa-user-o"> </span> 登录</button>
-      <button type="button" class="btn btn-outline-danger mx-0"><span class="fa fa-edit "></span> 注册</button>
+      <a  style="color:#fff;" class="btn btn-danger mx-0" role="button"  href="<?php echo url('customer/index/index'); ?>"><span class="fa fa-user-o"> </span> 登录</a>
+      <a  class="btn btn-outline-danger mx-0" role="button"  href="<?php echo url('customer/index/index'); ?>"><span class="fa fa-edit "></span> 注册</a>
     </div>
   </div>
 </nav>
@@ -94,18 +98,10 @@ height:1px;
 <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
   <ol class="carousel-indicators">
     <li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="1"></li>
-    <li data-target="#carouselExampleIndicators" data-slide-to="2"></li>
   </ol>
   <div class="carousel-inner">
     <div class="carousel-item active">
-      <img class="d-block w-100" src="..." alt="First slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="..." alt="Second slide">
-    </div>
-    <div class="carousel-item">
-      <img class="d-block w-100" src="..." alt="Third slide">
+      <img class="d-block w-100" src="/static/images/banner3.png" alt="Third slide">
     </div>
   </div>
   <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
@@ -118,7 +114,7 @@ height:1px;
   </a>
 </div>
 
-<div class="container">
+<div class="container mt-4">
 <div class="text-center d-flex justify-content-center align-items-center"> 
 	<div class="lline"></div>
 	<h3>三板斧将为你带来什么</h3>
@@ -175,16 +171,13 @@ height:1px;
   <img class="card-img-top" src="/static/images/video.png" alt="Card image cap">
    <div class="card-header d-flex align-items-center justify-content-between" >
     <strong style="color:#d9363a;" class="my-0">视频演示</strong>
-    <p class="my-0">查看更多<span class="ml-2 fa fa-angle-right"></span> <span style="color:#d9363a;" class="fa fa-video-camera"></span></p>
+    <p class="my-0"><a href="<?php echo url('tutorial'); ?>">查看更多</a><span class="ml-2 fa fa-angle-right"></span> <span style="color:#d9363a;" class="fa fa-video-camera"></span></p>
   </div>
   <div class="card-body">
-    <ul class="list-unstyled">
-    <li><span style="color:#dce0e3;" class="fa fa-youtube-play mr-3"></span>xxxxxxxxxxxxxxxx</li>
-    <li><span style="color:#dce0e3;" class="fa fa-youtube-play mr-3"></span>xxxxxxxxxxxxxxxx</li>
-    <li><span style="color:#dce0e3;" class="fa fa-youtube-play mr-3"></span>xxxxxxxxxxxxxxxx</li>
-    <li><span style="color:#dce0e3;" class="fa fa-youtube-play mr-3"></span>xxxxxxxxxxxxxxxx</li>
-    <li><span style="color:#dce0e3;" class="fa fa-youtube-play mr-3"></span>xxxxxxxxxxxxxxxx</li>
-    <li><span style="color:#dce0e3;" class="fa fa-youtube-play mr-3"></span>xxxxxxxxxxxxxxxx</li>
+    <ul class="list-unstyled"> 
+      <?php if(is_array($video) || $video instanceof \think\Collection || $video instanceof \think\Paginator): $i = 0; $__LIST__ = $video;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+       <li><span style="color:#dce0e3;" class="fa fa-youtube-play mr-3"></span><a href="<?php echo url('tutorial'); ?>"><?php echo $vo['name']; ?></a></li>
+      <?php endforeach; endif; else: echo "" ;endif; ?>
     </ul>
 </div>
 
@@ -194,16 +187,13 @@ height:1px;
   <img class="card-img-top" src="/static/images/contact.png" alt="Card image cap">
    <div class="card-header d-flex align-items-center justify-content-between" >
     <strong style="color:#d9363a;" class="my-0">电商咨询</strong>
-    <p class="my-0">查看更多<span class="ml-2 fa fa-angle-right"></span> <span style="color:#d9363a;" class="fa fa-globe"></span></p>
+    <p class="my-0"><a href="<?php echo url('help'); ?>">查看更多</a><span class="ml-2 fa fa-angle-right"></span> <span style="color:#d9363a;" class="fa fa-globe"></span></p>
   </div>
   <div class="card-body">
     <ul class="list-unstyled">
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
+     <?php if(is_array($news) || $news instanceof \think\Collection || $news instanceof \think\Paginator): $i = 0; $__LIST__ = $news;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+       <li><a href="<?php echo url('news','id='.$vo['newsid']); ?>"><?php echo $vo['name']; ?></a></li>
+      <?php endforeach; endif; else: echo "" ;endif; ?>
     </ul>
 </div>
 
@@ -213,16 +203,13 @@ height:1px;
   <img class="card-img-top" src="/static/images/qa.png" alt="Card image cap">
    <div class="card-header d-flex align-items-center justify-content-between" >
     <strong style="color:#d9363a;" class="my-0">常见问题</strong>
-    <p class="my-0">查看更多<span class="ml-2 fa fa-angle-right"></span> <span style="color:#d9363a;" class="fa fa-share-alt"></span></p>
+    <p class="my-0"><a href="<?php echo url('question'); ?>">查看更多</a><span class="ml-2 fa fa-angle-right"></span> <span style="color:#d9363a;" class="fa fa-share-alt"></span></p>
   </div>
   <div class="card-body">
     <ul class="">
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
+     <?php if(is_array($question) || $question instanceof \think\Collection || $question instanceof \think\Paginator): $i = 0; $__LIST__ = $question;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
+       <li><a href="<?php echo url('question'); ?>"><?php echo $vo['ask']; ?></a></li>
+      <?php endforeach; endif; else: echo "" ;endif; ?>
     </ul>
 </div>
 

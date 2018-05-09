@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:79:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\tutorial.html";i:1525832641;s:27:"./template/indexlayout.html";i:1525833583;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:77:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\detail.html";i:1525831317;s:27:"./template/indexlayout.html";i:1525829377;}*/ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -40,33 +40,9 @@ body {
 }
 
 
-.item{ 
-  
-    margin-right: 35px;
-    -webkit-box-shadow: 0 1px 5px #ccc;
-    box-shadow: 0 1px 5px #ccc;
-    margin-bottom: 35px;
-    }
-  .sign{
-   position:relative;
-  }
-.mask {   
-  position: absolute;  
-   width: 100%;  
-   height: 100%;   
-   text-align: center;  
-   background: #000;
-   opacity: 0;
-   top:0;
-  }
-.sign:hover .mask {
-   -webkit-transition: all 300ms ease-out;
-    -moz-transition: all 300ms ease-out;
-    -o-transition: all 300ms ease-out;
-    transition: all 300ms ease-out;  
-    opacity: .5;
-    cursor:pointer;
- }
+img{
+  max-width:100%;
+}
 
 
 </style>
@@ -84,7 +60,7 @@ body {
       <li class="nav-item ">
         <a class="nav-link p-md-4" href="<?php echo url('customer/index/index'); ?>">充值</a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item ">
         <a class="nav-link p-md-4" href="<?php echo url('tutorial'); ?>">教程</a>
       </li>
       <li class="nav-item ">
@@ -92,42 +68,18 @@ body {
       </li>
     </ul>
     <div>
-      <a  style="color:#fff;" class="btn btn-danger mx-0" role="button"  href="<?php echo url('customer/index/index'); ?>"><span class="fa fa-user-o"> </span> 登录</a>
-      <a  class="btn btn-outline-danger mx-0" role="button"  href="<?php echo url('customer/index/index'); ?>"><span class="fa fa-edit "></span> 注册</a>
+      <button type="button" class="btn btn-danger mx-0"><span class="fa fa-user-o"> </span> 登录</button>
+      <button type="button" class="btn btn-outline-danger mx-0"><span class="fa fa-edit "></span> 注册</button>
     </div>
   </div>
 </nav>
 
 
 
-<div style="width:100%;height:500px;">
-<img src="/static/images/banner.png" style="width:100%;max-height:100%;" alt="" />
-</div>
-
 <div class="container">
-<div class="row">
-<?php if(is_array($video) || $video instanceof \think\Collection || $video instanceof \think\Paginator): $i = 0; $__LIST__ = $video;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-<div class="">
-	<div class="item">
-	<div class="sign" style="width:100%;">
-	 <?php echo $vo['path']; ?>
-   <!--   <div class="mask text-white d-flex align-items-center justify-content-center">
-        <span class="fa fa-play fa-3x"></span>
-     </div> -->
-	</div>
-	<div class="text-center">
-	<h4 class="my-2">xxxxxxxxx</h4>
-	</div>
-	</div>
-
+<h3 class="text-center"><?php echo $res['name']; ?></h3>
+<p><?php echo $res['content']; ?></p>
 </div>
-<?php endforeach; endif; else: echo "" ;endif; ?>
-
-</div>
-
-</div>
-
-
 	
 	
 

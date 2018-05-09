@@ -5,8 +5,8 @@
 background:#d9363a;
 color:#fff;
 }
- .card-header a{
-  color:#fff !important;
+.container a{
+  color:#000 ;
   text-decoration:none !important;
 }
 
@@ -19,16 +19,13 @@ color:#fff;
 <div class="card ">
   <div class="card-header">
        <strong>常见问题</strong>
-       <p class="mb-0 pull-right"><a href="{:url('question')}"><small>查看更多 </small></a><span class="fa fa-question-circle-o"></span></p>
+       <p class="mb-0 pull-right"><a href="{:url('question')}"><small style="color:#fff;">查看更多</small></a><span class="fa fa-question-circle-o"></span></p>
   </div>
   <div class="card-body">
     <ul class="list-unstyled">
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
-    <li>xxxxxxxxxxxxxxxx</li>
+      {volist name="question" id="vo"}
+      <li><a href="{:url('question')}">{$vo.ask}</a></li>
+      {/volist}
     </ul>
   </div>
 </div>
@@ -41,14 +38,11 @@ color:#fff;
     <strong>电商咨询</strong>
   </div>
   <div class="card-body">
-   <div class="media">
-  <img class="align-self-center mr-3" src="..." alt="Generic placeholder image">
-  <div class="media-body">
-   <p class="d-flex justify-content-between mb-0"><span>4984*@qq.com</span><span>2018.4.7</span></p>
-   <p> Cras justo odio</p>
-   <span class="fa fa-eye pull-right"></span>
-  </div>
-   </div>
+  <ul class="list-group list-group-flush">
+    {volist name="news" id="vo"}
+     <li class="list-group-item"><a href="{:url('news','id='.$vo.newsid)}">{$vo.name}</a></li>
+    {/volist}
+</ul>
   </div>
 </div>
 </div>
