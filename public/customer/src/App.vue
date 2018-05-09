@@ -93,7 +93,7 @@
      <img src="/static/images/wxpay.jpg" height="550" width="400" style="margin-right:15px;">
      <img src="/static/images/alipay.jpg" height="550" width="400">
    </div>
-  <p>一元 = 500积分</p>
+   <p>一元 = 500积分</p>
 </el-dialog>
 
 
