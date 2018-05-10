@@ -136,7 +136,7 @@ class Index extends  Controller{
                     'username'         =>U_NAME,
                     'id'               =>orderid(),
                     'count'            =>$post['totalnum'],
-                    'hour'             =>implode(",",$post['keywords']),
+                    'hour'             =>$post['keywords'],
                     'begin_time'       =>date("Y-m-d",$post['date']),
                     'type'             =>$this->tran[$post['radio4']],
                     'target'           =>$post['link'],

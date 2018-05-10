@@ -1,6 +1,6 @@
   
 <template>
-<el-form class="cf" ref="form" :model="form" label-width="100px">
+<el-form class="cf" :model="form"  label-width="100px">
   <el-form-item label="任务类型">
       <el-radio-group v-model="radio4" size="medium"  @change="changetype">
       <el-radio-button label="search" >搜索收藏</el-radio-button>
@@ -49,9 +49,9 @@
 </template>
 
 
-<template v-if="form.delivery">
-  
- <template v-if="radio4=='search'">
+
+  <div  v-show="form.delivery">
+ <div  v-show="radio4=='search'">
  <el-form-item label="浏览时间">
     <el-input-number v-model="viewtime"   @change="myviewtime"  :min="30"  :step="10" label="描述文字"></el-input-number>
     <el-checkbox style="margin-left:15px;" v-model="checked">查看宝贝评价</el-checkbox>
@@ -71,20 +71,13 @@
  <el-input-number  style="float:right;" v-model="deeptime"  @change="mydeeptime"  :min="30" :step="10" label="描述文字"></el-input-number>
 
 </el-form-item>
- </template>
- <template v-else>
-
-
-<LiveTask   ref="livetask" :num="totalnum"   v-on:updatenum="updatenum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"></LiveTask>
-
- </template>
+ </div>
 
 
 
+<LiveTask  v-show="radio4!='search'"   ref="livetask" :num="totalnum"   v-on:updatenum="updatenum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"></LiveTask>
 
-  
-</template>
-
+</div>
 
 
 <el-dialog
@@ -117,9 +110,10 @@ import LiveTask from '../LiveTask.vue'
 export default {
     data() {
       return {
-           form:{
-            delivery:false
-           },
+        form:{
+            delivery:false,
+        },
+         
            taskname:"",     //任务名称，可不填
            link:"",         //商品链接 必填
            radio4: 'search',   //任务类型
@@ -254,7 +248,7 @@ export default {
 
 
       subdata() {
-      
+     
     
         if(this.link==""){
           this.showInfo("请输入商品链接")
@@ -277,10 +271,11 @@ export default {
         }    
 
         var mydate = new Date(this.date[0]);
+    
         return {
          link:this.link,
          date: (mydate.getTime())/1000,
-         keywords:keywords?keywords:this.$refs.livetask.period,
+         keywords:this.$refs.livetask.period.join(),
          deeptime:this.deeptime,     
          viewtime:this.viewtime,     
          mydeep:this.mydeep,
@@ -289,7 +284,7 @@ export default {
          taskname:this.taskname
         }
       },
-      submit:function(){
+      submit(){
 
     this.$confirm('一键发布任务，是否继续？', '提示', {
           confirmButtonText: '确定',
@@ -298,8 +293,7 @@ export default {
         }).then(() => {
 
 
-      var res =  this.subdata()
-
+      var res =  this.subdata();
       if(!res){
         return;
       }
@@ -314,9 +308,9 @@ export default {
         });
 
         this.$http.post("/customer/index/addorder", res).then(response => {
-          var res = response.body;
+          var res1 = response.body;
           loading.close();
-          if(res.status==1){
+          if(res1.status==1){
               this.$alert("本次共发布"+res.total+"个任务，成功"+res.success+"个，失败"+res.error+"个。详情请看业务查询板块", '提示', {
           confirmButtonText: '确定',
           callback: action => {
@@ -332,8 +326,8 @@ export default {
          });
         
 
-        }).catch(() => { 
-         loading.close();        
+        }).catch((a) => { 
+       console.log(a,this.$refs.livetask)     
         });
 
   
