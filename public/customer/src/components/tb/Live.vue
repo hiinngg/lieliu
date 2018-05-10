@@ -45,7 +45,7 @@
 </el-form-item>
 </template>
 
-  <LiveTask     ref="task"   v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  ></LiveTask>
+  <LiveTask    v-on:updatenum="updatenum"    ref="livetask"  :num="totalnum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  ></LiveTask>
 
 
 
@@ -142,7 +142,7 @@ export default {
            dialogMsg:"发生错误了，请重试"
       }
     },
-    props:[],
+    props:['num'],
     components:{
      LiveTask
     },
@@ -182,17 +182,13 @@ export default {
 
      },
      totalnum:function(nv,ov){
-      console.log(  this.$refs.task)
-          this.$refs.task.num = nv
+      this.totalnum = nv
      }
     },
 
     methods: {
     
        subdata() {
-       var tasks = this.$refs.task;
-       var len = tasks.length;
-       var keywords =this.link;
      /*   if(this.link==""){
           this.showInfo("请输入商品链接")
           return false;
@@ -217,8 +213,9 @@ export default {
         var mydate = new Date(this.date[0]);
         return {
          link:this.link,
+           live:think.link,
          date: (mydate.getTime())/1000,
-         keywords:keywords,
+         keywords:this.$refs.livetask.period,
          deeptime:this.deeptime,     
          viewtime:this.viewtime,     
          mydeep:this.mydeep, 
@@ -241,6 +238,7 @@ export default {
       if(!res){
         return;
       }
+
       res['totalnum'] = this.totalnum;  //每天任务量
       res['totaltime'] =  this.totaltime;
       res['totalint']  =  this.totalint;
@@ -277,8 +275,11 @@ export default {
    
      },
       mynum(num){
-         this.totalnum =num;
+         this.totalnum +=num;
 
+      },
+      updatenum(num){
+        this.totalnum = num;
       },
     //  myviewtime(time){
     //    this.$emit("addviewtime",time)

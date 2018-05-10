@@ -1,6 +1,6 @@
 <template>
 
-  <el-form-item label="特殊资源">
+  <el-form-item label="任务时段">
     <el-radio-group v-model="periodShow" size="medium">
       <el-radio :label="false">自动当天完成</el-radio>
       <el-radio :label="true">手动指定时段</el-radio>
@@ -56,7 +56,6 @@ export default {
   data(){
       return {
         keyword:"",
-        num : 100,
         periodType:"today",
         periodShow:false,
         period:this.setTaskCount(100,"today"),
@@ -67,19 +66,26 @@ export default {
       }
    
   },
-props:['keywordlistLength','mykey'],
+props:['keywordlistLength','mykey','num'],
 created:function(){
   this.percentChange()
+},
+computed:{
+
 },
 watch:{
   num:function(newnum,oldnum){
   if(!newnum||newnum==""||newnum==0){
   //防止用户不正当输入
-  return this.num = 1;
+  return this.$emit('updatenum',1);
  }
-    this.period  = this.setTaskCount(newnum,this.periodType,this.weight)
+/*    this.period  = this.setTaskCount(newnum,this.periodType,this.weight)
     this.percentChange()
-    this.$emit('mynum',newnum)
+    this.$emit('mynum',newnum-oldnum)*/
+
+ this.period  = this.setTaskCount(newnum,this.periodType,this.weight)
+ this.percentChange()
+
   },
   periodType:function(p){
     if(p&&p!==""){
@@ -112,7 +118,7 @@ methods:{
       }
      this.periodType = ''
      this.weight = this.percentChange();
-     this.num = num
+     this.$emit('updatenum',num)
    
 
    },

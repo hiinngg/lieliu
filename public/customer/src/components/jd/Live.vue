@@ -3,9 +3,8 @@
 <el-form class="cf" ref="form" :model="form" label-width="100px">
   <el-form-item label="任务类型">
       <el-radio-group v-model="radio4" size="medium"  @change="changetype">
-      <el-radio-button label="sub" >达人关注</el-radio-button>
-      <el-radio-button label="like">微淘点赞</el-radio-button>
-       <el-radio-button label="live">直播观看</el-radio-button>
+      <el-radio-button label="jdshop" >店铺关注</el-radio-button>
+      <el-radio-button label="sub">达人关注</el-radio-button>
     </el-radio-group>
     </el-radio-group>
 
@@ -30,9 +29,7 @@
     <el-input v-model="taskname" placeholder="输入任务名称(可不填)" ></el-input>
   </el-form-item>
   <el-form-item label="链接" >
-    <el-input  v-if="radio4=='sub'" v-model="link" placeholder="输入店铺链接" ></el-input>
-    <el-input  v-else-if="radio4=='like'"   v-model="link" placeholder="输入微淘分享的微口令" ></el-input>
-    <el-input  v-else-if="radio4=='live'"   v-model="link" placeholder="输入淘宝直播间分享的淘口令" ></el-input>
+    <el-input   v-model="link" placeholder="输入京东店铺/达人/商品链接" ></el-input>
   </el-form-item>
 
 
@@ -45,7 +42,7 @@
 </el-form-item>
 </template>
 
-  <LiveTask     ref="task"   v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  ></LiveTask>
+  <LiveTask    :num="totalnum"  v-on:updatenum="updatenum"   ref="livetask"   v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  ></LiveTask>
 
 
 
@@ -83,7 +80,7 @@ export default {
            form:{},
            taskname:"",     //任务名称，可不填
            link:"",         //商品链接 必填
-           radio4: 'sub',   //任务类型
+           radio4: 'jdshop',   //任务类型
            totalnum:100,    //每天任务量
            date:[Date.now(),Date.now()],         //日期
            day:1,           //天数
@@ -157,11 +154,9 @@ export default {
        switch(this.radio4){
           
        case "sub":
-          return 56;
-       case "like" :
-          return 20; 
-       case "live" :
-          return 8; 
+          return 50;
+       case "jdshop":
+          return 75; 
        }
     },
     totalint:function(){
@@ -182,17 +177,14 @@ export default {
 
      },
      totalnum:function(nv,ov){
-      console.log(  this.$refs.task)
-          this.$refs.task.num = nv
+        this.totalnum = nv
      }
     },
 
     methods: {
     
        subdata() {
-       var tasks = this.$refs.task;
-       var len = tasks.length;
-       var keywords =this.link;
+       //var keywords =this.link;
      /*   if(this.link==""){
           this.showInfo("请输入商品链接")
           return false;
@@ -217,8 +209,9 @@ export default {
         var mydate = new Date(this.date[0]);
         return {
          link:this.link,
+         live:think.link,
          date: (mydate.getTime())/1000,
-         keywords:keywords,
+         keywords:keywords?keywords:this.$refs.livetask.period,
          deeptime:this.deeptime,     
          viewtime:this.viewtime,     
          mydeep:this.mydeep, 
@@ -278,8 +271,11 @@ export default {
    
      },
       mynum(num){
-         this.totalnum =num;
+         this.totalnum +=num;
 
+      },
+            updatenum(num){
+        this.totalnum = num;
       },
     //  myviewtime(time){
     //    this.$emit("addviewtime",time)

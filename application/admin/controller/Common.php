@@ -21,6 +21,7 @@ class Common extends Controller
 //            var_dump($_SESSION);
 //            var_dump(session_id());
             return $this->redirect('login/login');
+            
 
         }else{
 

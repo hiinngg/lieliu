@@ -4,10 +4,10 @@
   <el-form-item label="任务类型">
       <el-radio-group v-model="radio4" size="medium"  @change="changetype">
       <el-radio-button label="search" >搜索收藏</el-radio-button>
-      <el-radio-button label="product">直接收藏</el-radio-button>
+      <el-radio-button label="jdproduct">直接收藏</el-radio-button>
     </el-radio-group>
   <el-form-item label="显示高级设置" style="float:right;">
-    <el-switch v-model="form.delivery"></el-switch>
+    <el-switch  v-model="form.delivery"></el-switch>
   </el-form-item>
 
   </el-form-item>
@@ -50,7 +50,7 @@
 
 <template v-if="form.delivery">
   
-
+ <template v-if="radio4=='search'">
  <el-form-item label="浏览时间">
     <el-input-number v-model="viewtime"   @change="myviewtime"  :min="30"  :step="10" label="描述文字"></el-input-number>
     <el-checkbox style="margin-left:15px;" v-model="checked">查看宝贝评价</el-checkbox>
@@ -70,6 +70,17 @@
  <el-input-number  style="float:right;" v-model="deeptime"  @change="mydeeptime"  :min="30" :step="10" label="描述文字"></el-input-number>
 
 </el-form-item>
+ </template>
+ <template v-else>
+
+
+<LiveTask   ref="livetask" :num="totalnum"   v-on:updatenum="updatenum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"></LiveTask>
+
+ </template>
+
+
+
+
   
 </template>
 
@@ -87,9 +98,9 @@
 
 
 <el-card class="box-card cf" style="margin-top:30px;">
-	  <p>任务耗时：<span class="num">{{totaltime}}</span>秒&nbsp;&nbsp;单次消费：<span class="num">{{perint}}</span>积分&nbsp;&nbsp;合计消费：<span class="num">{{totalint}}</span>积分</p>
-	  <el-button  @click="submit" style="float:right;" type="danger">发布任务</el-button>
-	</el-card>
+    <p>任务耗时：<span class="num">{{totaltime}}</span>秒&nbsp;&nbsp;单次消费：<span class="num">{{perint}}</span>积分&nbsp;&nbsp;合计消费：<span class="num">{{totalint}}</span>积分</p>
+    <el-button  @click="submit" style="float:right;" type="danger">发布任务</el-button>
+  </el-card>
 
 </el-form>
 
@@ -101,10 +112,13 @@
 
 <script type="text/javascript">
 import Task from '../Task.vue'
+import LiveTask from '../LiveTask.vue'
 export default {
     data() {
       return {
-           form:{},
+           form:{
+            delivery:false
+           },
            taskname:"",     //任务名称，可不填
            link:"",         //商品链接 必填
            radio4: 'search',   //任务类型
@@ -168,30 +182,41 @@ export default {
     },
     props:[],
     components:{
-     Task
+     Task,
+     LiveTask
     },
     computed:{
       totaltask:function(){    //总任务量
         return this.day*this.totalnum
       },
       totaltime:function(){
-      return this.viewtime+this.truedeeptime
+        switch(this.radio4){
+          
+       case "search":
+           return this.viewtime+this.truedeeptime;
+       case "jdproduct" :
+          return 30; 
+       }
+     
     },
      perint:function(){
        switch(this.radio4){
           
        case "search":
-          return Math.round((this.totaltime/5)*2.5*0.3)+56;
-       case "product" :
-          return Math.round((this.totaltime/5)*2.5*0.3)+47; 
-       case "shop" :
-          return Math.round((this.totaltime/5)*2.5*0.3)+47; 
+         if(this.totaltime>100){
+             return 10+Math.round((this.totaltime-100)/50)+75;
+       }else{
+            return 85;
+       }
+         
+       case "jdproduct" :
+          return 75; 
        }
     },
     totalint:function(){
        return  this.totaltask*this.perint;
     }
-
+ 
     },
     watch:{
      mydeep:function(d){
@@ -202,23 +227,17 @@ export default {
          this.truedeeptime = 0
       }
      },
-     radio4:function(newr,oldr){
-
+     totalnum:function(nv,ov){
+       this.totalnum = nv
      }
     },
 
     methods: {
-    
-      subdata() {
+      genkeywordlist(){
        var tasks = this.$refs.task;
        var len = tasks.length;
        var keywords = []
-        if(this.link==""){
-          this.showInfo("请输入商品链接")
-          return false;
-        }
-        if(len > 0){
-            for(var i=0;i<len;i++){
+         for(var i=0;i<len;i++){
           if(tasks[i].keyword==""){
           this.showInfo("请输入搜索的关键字")
           return false;
@@ -229,18 +248,41 @@ export default {
             period:tasks[i].period
           })
         }
-        }else{
-          keywords = false;
+        return keywords;
+      },
+
+
+
+      subdata() {
+      
+    
+        if(this.link==""){
+          this.showInfo("请输入商品链接")
+          return false;
         }
-     
+        var keywords = [];
+        switch(this.radio4){
+          case "search":
+            keywords  = this.genkeywordlist();
+            if(!keywords){
+              return false;
+            }
+            break;
+          case "jdproduct":
+            keywords = false;
+            this.myviewtime = 30;
+            this.mydeep = 0;
+            break;
+        }    
+
         var mydate = new Date(this.date[0]);
         return {
          link:this.link,
          date: (mydate.getTime())/1000,
-         keywords:keywords,
+         keywords:keywords?keywords:this.$refs.livetask.period,
          deeptime:this.deeptime,     
          viewtime:this.viewtime,     
-         mydeep:this.mydeep, 
+         mydeep:this.mydeep,
          radio4:this.radio4,
          checked:this.checked,
          taskname:this.taskname
@@ -264,6 +306,7 @@ export default {
       res['totalnum'] = this.totalnum;  //每天任务量
       res['totaltime'] =  this.totaltime;
       res['totalint']  =  this.totalint;
+
       const loading = this.$loading({    //放 loading
           text: 'Loading',
           spinner: 'el-icon-loading',
@@ -297,8 +340,11 @@ export default {
    
      },
       mynum(num){
-         this.totalnum +=num;
+         this.totalnum += num;
 
+      },
+      updatenum(num){
+        this.totalnum = num;
       },
     //  myviewtime(time){
     //    this.$emit("addviewtime",time)
@@ -307,9 +353,10 @@ export default {
         if(this.mydeep!="0"){
         this.truedeeptime = this.trandeeptime()
         }
-    },
+     },
       changetype(type){
         if(type=="search"){
+
           this.rnum()
         }
        //  this.$emit("changetype",type)
@@ -353,6 +400,7 @@ export default {
        this.dialogMsg = msg
 
     },
+
     
     rnum:function(){   //重新统计各关键词的数量
       var list =  this.$refs.task

@@ -26,8 +26,8 @@ class Index extends  Controller{
 73京东加购
 
 */
-    protected $tran = ['app'=>0,'pc'=>1,'view'=>3,'search'=>9,'product'=>7,'shop'=>6,'searchcart'=>11,'cart'=>10,'sub'=>12,'like'=>13,'live'=>14,'jdflow'=>70,'product'=>71,
-    'shop'=>72,'jdcart'=>73];
+    protected $tran = ['app'=>0,'pc'=>1,'view'=>3,'search'=>9,'product'=>7,'shop'=>6,'searchcart'=>11,'cart'=>10,'sub'=>12,'like'=>13,'live'=>14,'jdflow'=>70,'jdproduct'=>71,
+    'jdshop'=>72,'jdcart'=>73];
 
 
     public function _initialize(){
@@ -136,7 +136,7 @@ class Index extends  Controller{
                     'username'         =>U_NAME,
                     'id'               =>orderid(),
                     'count'            =>$post['totalnum'],
-                    'hour'             =>"0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0",
+                    'hour'             =>implode(",",$post['keywords']),
                     'begin_time'       =>date("Y-m-d",$post['date']),
                     'type'             =>$this->tran[$post['radio4']],
                     'target'           =>$post['link'],
@@ -147,10 +147,13 @@ class Index extends  Controller{
                     'ver'              =>4
 
                 ];
-                $param  =  $this->adddeeptime($param,$post);
-                if($post['keywords']!=""){
-                  $param['keyword'] = $post['keywords'];
+                if(isset($post['live'])){
+                  $param['keyword'] = $post['live'];
                 }
+                $param  =  $this->adddeeptime($param,$post);
+             /*   if($post['keywords']!=""){
+                  $param['keyword'] = $post['keywords'];
+                }*/
                 ksort($param);
                 $str = $base_uri."?";
                 foreach( $param as $j=>$k){
