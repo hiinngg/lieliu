@@ -73,8 +73,6 @@
 </el-form-item>
  </div>
 
-
-
 <LiveTask  v-show="radio4!='search'"   ref="livetask" :num="totalnum"   v-on:updatenum="updatenum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"></LiveTask>
 
 </div>

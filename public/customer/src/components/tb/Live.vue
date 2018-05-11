@@ -45,7 +45,7 @@
 </el-form-item>
 </template>
 
-  <LiveTask    v-on:updatenum="updatenum"    ref="livetask"  :num="totalnum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  ></LiveTask>
+ <LiveTask    v-on:updatenum="updatenum"    ref="livetask"  :num="totalnum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"  ></LiveTask>
 
 
 

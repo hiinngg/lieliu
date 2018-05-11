@@ -48,9 +48,9 @@
 </template>
 
 
-<template v-if="form.delivery">
+<div v-show="form.delivery">
   
- <template v-if="radio4=='search'">
+ <div v-show="radio4=='search'">
  <el-form-item label="浏览时间">
     <el-input-number v-model="viewtime"   @change="myviewtime"  :min="30"  :step="10" label="描述文字"></el-input-number>
     <el-checkbox style="margin-left:15px;" v-model="checked">查看宝贝评价</el-checkbox>
@@ -70,19 +70,16 @@
  <el-input-number  style="float:right;" v-model="deeptime"  @change="mydeeptime"  :min="30" :step="10" label="描述文字"></el-input-number>
 
 </el-form-item>
- </template>
- <template v-else>
+ </div>
 
+<LiveTask  v-show="radio4!='search'"  ref="livetask" :num="totalnum"   v-on:updatenum="updatenum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"></LiveTask>
 
-<LiveTask   ref="livetask" :num="totalnum"   v-on:updatenum="updatenum"  v-on:myinc="inc" v-on:mynum="mynum"  v-on:mydec="dec"></LiveTask>
-
- </template>
 
 
 
 
   
-</template>
+</div>
 
 
 
