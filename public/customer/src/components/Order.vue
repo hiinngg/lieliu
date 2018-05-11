@@ -11,9 +11,15 @@
       width="200"
       >
     </el-table-column>
+      <el-table-column
+      prop="k"
+      label="搜索的关键词"
+      width="200"
+      >
+    </el-table-column>
     <el-table-column
-      prop="p"
-      label="单价/总价">
+      prop="integrate"
+      label="消耗积分">
     </el-table-column>
     <el-table-column
       prop="c"
@@ -25,6 +31,7 @@
     </el-table-column>
     <el-table-column
       prop="t"
+       sortable
       label="发布时间">
     </el-table-column>
      <el-table-column
@@ -36,6 +43,13 @@
       label="操作">
     </el-table-column>
   </el-table>
+
+  <el-pagination
+  :page-size="20"
+  :pager-count="11"
+  layout="prev, pager, next"
+  :total="1000">
+  </el-pagination>
   </div>
   
 </template>

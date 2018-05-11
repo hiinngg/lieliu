@@ -66,4 +66,15 @@ class Index extends Controller
         $this->assign('res',$res);
         return $this->fetch('detail');
     }
+
+    //关于我们页面
+    public function about(){
+      return $this->fetch();
+    }
+     
+    //联系我们
+    public function contact(){
+      return $this->fetch();
+    }
+
 }

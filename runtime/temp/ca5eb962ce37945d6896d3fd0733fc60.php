@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\index.html";i:1525833598;s:27:"./template/indexlayout.html";i:1525833583;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\index.html";i:1526020523;s:27:"./template/indexlayout.html";i:1526020344;}*/ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -7,9 +7,16 @@
 
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 	<title>三板斧</title>
 </head>
 <style>
+a{
+  color:#000 ;
+  text-decoration:none !important;
+}
 #mynav .nav-item a:hover,.active>a{
 	background:#d9363a;
 	color:#fff !important;
@@ -44,6 +51,11 @@ a{
   color:#000 ;
   text-decoration:none !important;
 }
+
+
+
+
+
 .rline{
 width:200px;
 height:1px;
@@ -155,7 +167,7 @@ height:1px;
 	  <img class="align-self-center mr-3" src="/static/images/red.png" alt="Generic placeholder image">
 	  <div  class="media-body">
 	    <strong class="mt-0">打造爆款</strong>
-	    <p style="font-size:14px;"></p>
+	    <p style="font-size:14px;">专业的关键词优化，提高点击率 有点击率才会有流量。</p>
 	  </div>
 	</div>
 </div>
@@ -167,7 +179,7 @@ height:1px;
 
 <div class="my-5 " style="background:#edeeef;">
 <div class="container d-flex justify-content-around align-items-center py-4">
-   <div class="card mr-3" style="height:360px;">
+  <div class="card mr-3" style="height:360px;">
   <img class="card-img-top" src="/static/images/video.png" alt="Card image cap">
    <div class="card-header d-flex align-items-center justify-content-between" >
     <strong style="color:#d9363a;" class="my-0">视频演示</strong>
@@ -233,7 +245,7 @@ height:1px;
 </div>
 <p class="text-center">轻松推广店铺，只需一步，免费获取流量，就是这么简单！</p>
 
-<div class="media mt-3">
+<div class="media mt-3 wow fadeInUp">
   <img class=" mr-3" src="/static/images/send.png"  alt="Generic placeholder image">
   <div class="media-body align-self-center">
       <div class="d-flex align-items-center mb-3"> 
@@ -269,11 +281,11 @@ height:1px;
 	      <span>直访商品</span>
 	   </li>
       </ul>
-      <button type="button" class="btn btn-outline-danger">立即发布任务<span class="fa  fa-arrow-circle-down ml-2"></span></button>
+      <a class="btn btn-outline-danger" href="<?php echo url('customer/index/index'); ?>">立即发布任务<span class="fa  fa-arrow-circle-down ml-2"></span></a>
   </div>
 </div>
 
-<div class="media mt-3">
+<div class="media mt-3 wow fadeInUp">
   <img class=" mr-3" src="/static/images/fenpei.png"  alt="Generic placeholder image">
   <div class="media-body align-self-center">
       <div class="d-flex align-items-center mb-3"> 
@@ -297,10 +309,10 @@ height:1px;
 	      <span>将任务需求实时精准的发布到各大平台，快速提升店铺浏览量与商品点击率</span>
 	   </li>
       </ul>
-      <button type="button" class="btn btn-outline-danger">点击免费体验<span class="fa  fa-arrow-circle-down ml-2"></span></button>
+      <a class="btn btn-outline-danger" href="<?php echo url('customer/index/index'); ?>">点击免费体验<span class="fa  fa-arrow-circle-down ml-2"></span></a>
   </div>
 </div>
-<div class="media mt-3">
+<div class="media mt-3 wow fadeInUp">
   <img class=" mr-3" src="/static/images/jieshou.png"  alt="Generic placeholder image">
   <div class="media-body align-self-center">
       <div class="d-flex align-items-center mb-3"> 
@@ -324,10 +336,10 @@ height:1px;
 	      <span>提高点击率：专业的优化提高点击率，让宝贝更靠前，引爆搜索流量</span>
 	   </li>
       </ul>
-      <button type="button" class="btn btn-outline-danger">点击免费体验<span class="fa  fa-arrow-circle-down ml-2"></span></button>
+      <a" class="btn btn-outline-danger" href="<?php echo url('customer/index/index'); ?>" >点击免费体验<span class="fa  fa-arrow-circle-down ml-2"></span></a>
   </div>
 </div>
-<div class="media mt-3">
+<div class="media mt-3 wow fadeInUp">
   <img class=" mr-3" src="/static/images/zhixing.png"  alt="Generic placeholder image">
   <div class="media-body align-self-center">
       <div class="d-flex align-items-center mb-3"> 
@@ -355,11 +367,11 @@ height:1px;
 	      <span>深度访问店铺、收藏指定宝贝</span>
 	   </li>
       </ul>
-      <button type="button" class="btn btn-outline-danger">点击免费体验<span class="fa  fa-arrow-circle-down ml-2"></span></button>
+      <a class="btn btn-outline-danger" href="<?php echo url('customer/index/index'); ?>">点击免费体验<span class="fa  fa-arrow-circle-down ml-2"></span></a>
   </div>
 </div>
 
-<div class="media mt-3">
+<div class="media mt-3 wow fadeInUp">
   <img class=" mr-3" src="/static/images/done.png"  alt="Generic placeholder image">
   <div class="media-body align-self-center">
       <div class="d-flex align-items-center mb-3"> 
@@ -379,7 +391,7 @@ height:1px;
 	      <span>每日登录，系统免费赠送100点积分！</span>
 	   </li>
       </ul>
-      <button type="button" class="btn btn-outline-danger">点击免费体验<span class="fa  fa-arrow-circle-down ml-2"></span></button>
+      <a class="btn btn-outline-danger" href="<?php echo url('customer/index/index'); ?>">点击免费体验<span class="fa  fa-arrow-circle-down ml-2"></span></a>
   </div>
 </div>
 
@@ -403,15 +415,12 @@ height:1px;
 
 <footer class="footer text-center text-truncate" >
 <ul id="fot" class="list-inline ">
-<li class="list-inline-item">三板斧</li>
-<li class="list-inline-item">淘宝引流</li>
-<li class="list-inline-item">视频教程</li>
-<li class="list-inline-item">联系我们</li>
-<li class="list-inline-item">友情链接</li>
-<li class="list-inline-item">关于我们</li>
-<li class="list-inline-item">网站地图</li>
-<li class="list-inline-item">诚招代理</li>
-<li class="list-inline-item">微商科员</li>
+<li class="list-inline-item"><a href="<?php echo url('index/index'); ?>">三板斧</a></li>
+<li class="list-inline-item"><a href="<?php echo url('customer/index/index'); ?>">淘宝引流</a></li>
+<li class="list-inline-item"><a href="<?php echo url('index/tutorial'); ?>">视频教程</a></li>
+<li class="list-inline-item"><a href="<?php echo url('index/contact'); ?>">联系我们</a></li>
+<li class="list-inline-item"><a href="<?php echo url('index/about'); ?>">关于我们</a></li>
+<li class="list-inline-item"><a href="<?php echo url('index/help'); ?>">电商干货</a></li>
 </ul>
 
 技术支持：中山掌门人网络科技有限公司<a class="text-white" href="http://www.zszmr.com">ZSZMR </a>
@@ -425,5 +434,10 @@ height:1px;
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>	
+<script src="/static/js/wow.min.js"></script>
+<script type="text/javascript">
+ new WOW().init();
+</script>
+
 </body>
 </html>

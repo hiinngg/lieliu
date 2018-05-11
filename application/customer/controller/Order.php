@@ -14,7 +14,7 @@ use think\Db;
 
 class Order extends  Controller{
     //查看任务
-    public function  orderlist(){
+    public function  orderlist($page=1){
         if($this->request->isAjax()){
 
 
@@ -25,20 +25,26 @@ class Order extends  Controller{
             $userid = Session::get("userid");
          }
 
-         //获取客人已发布的任务
-           $tasks =  $this->checkout($userid);
+         //获取客人已发布的任务   +分页
+           $tasks =  $this->checkout($userid,$page);
            if(empty($tasks)){
             return [
                     'status'=>1,
                     'data'=>[]
                 ];
            }
-
+             
+             //构建任务id集合
              $taskids = array_map(function($v){
-                return $v['third_task_id'];
+                return  $v['third_task_id'];
              },$tasks);
 
-             $id = implode(",", $taskids);
+             //构建任务id与积分关联集合
+             $t_i=[];
+             foreach ($tasks as $key => $value) {
+               $t_i[$value['third_task_id']] = $value['integrate'];
+             }
+            $id = implode(",",$taskids);
             $post = $this->request->post();
             $base_uri = 'http://api.lieliu.com:1024/ll/task_list';
                 $param = [
@@ -62,10 +68,18 @@ class Order extends  Controller{
             $request = new Request('GET', $str);
             $response = $client->send($request);
             $res = json_decode($response->getBody()->getContents(),true);
-            
-            
+    
+
+          
 
             if($res['data']['status']==1){
+                  //注入客人消费积分
+ 
+            foreach ($res['data']['list']['l'] as $j => $k) {
+                $res['data']['list']['l'][$j]['integrate'] = $t_i[$k['i']];
+
+        
+            }
                 return [
                     'status'=>1,
                     'data'=>$res['data']['list']['l']
@@ -80,8 +94,8 @@ class Order extends  Controller{
     /*
     获取客人已发布的任务
     */
-     public function checkout($userid){
-        return Db::name("task")->where("userid",$userid)->select();
+     public function checkout($userid,$page){
+        return Db::name("task")->where("userid",$userid)->order("createtime desc")->page($page,10)->select();
      }
 
 

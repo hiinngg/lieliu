@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:79:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\tutorial.html";i:1525832641;s:27:"./template/indexlayout.html";i:1526019982;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:78:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\contact.html";i:1526020225;s:27:"./template/indexlayout.html";i:1526019982;}*/ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -47,33 +47,7 @@ body {
 }
 
 
-.item{ 
-  
-    margin-right: 35px;
-    -webkit-box-shadow: 0 1px 5px #ccc;
-    box-shadow: 0 1px 5px #ccc;
-    margin-bottom: 35px;
-    }
-  .sign{
-   position:relative;
-  }
-.mask {   
-  position: absolute;  
-   width: 100%;  
-   height: 100%;   
-   text-align: center;  
-   background: #000;
-   opacity: 0;
-   top:0;
-  }
-.sign:hover .mask {
-   -webkit-transition: all 300ms ease-out;
-    -moz-transition: all 300ms ease-out;
-    -o-transition: all 300ms ease-out;
-    transition: all 300ms ease-out;  
-    opacity: .5;
-    cursor:pointer;
- }
+
 
 
 </style>
@@ -91,7 +65,7 @@ body {
       <li class="nav-item ">
         <a class="nav-link p-md-4" href="<?php echo url('customer/index/index'); ?>">充值</a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item ">
         <a class="nav-link p-md-4" href="<?php echo url('tutorial'); ?>">教程</a>
       </li>
       <li class="nav-item ">
@@ -107,34 +81,15 @@ body {
 
 
 
-<div style="width:100%;height:500px;">
-<img src="/static/images/banner.png" style="width:100%;max-height:100%;" alt="" />
-</div>
-
 <div class="container">
-<div class="row">
-<?php if(is_array($video) || $video instanceof \think\Collection || $video instanceof \think\Paginator): $i = 0; $__LIST__ = $video;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-<div class="">
-	<div class="item">
-	<div class="sign" style="width:100%;">
-	 <?php echo $vo['path']; ?>
-   <!--   <div class="mask text-white d-flex align-items-center justify-content-center">
-        <span class="fa fa-play fa-3x"></span>
-     </div> -->
-	</div>
-	<div class="text-center">
-	<h4 class="my-2">xxxxxxxxx</h4>
-	</div>
-	</div>
 
+<h5 class="text-center mb-3">关于本站</h5>
+<p>
+定位于为传统品牌商家提供电子商务服务，通过专业的技术助力传统品牌商完善电子商务模式，协助商家全方位，多角度的 打通全球电子商务销售链，使其在竞争激烈的电子商务市场有效提升销售收入和品牌价值。
+</p>
+<p>联系电话：15625365915</p>
+<p><img src="/static/images/qrcode.jpg" width="337px"  height="448px" /></p>
 </div>
-<?php endforeach; endif; else: echo "" ;endif; ?>
-
-</div>
-
-</div>
-
-
 	
 	
 

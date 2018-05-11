@@ -186,7 +186,8 @@ class Index extends  Controller{
                         'third_task_id'=>$orderids[$index],
                         'createtime'=>date("Y-m-d H:i:s"),
                         'status'=>1,
-                        'userid'=>$userid
+                        'userid'=>$userid,
+                        'integrate'=>$post['postint']
                     ]);
                      return  $success+=1;
                   }else{

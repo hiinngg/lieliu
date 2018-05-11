@@ -1,4 +1,4 @@
-<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:79:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\tutorial.html";i:1525832641;s:27:"./template/indexlayout.html";i:1526019982;}*/ ?>
+<?php if (!defined('THINK_PATH')) exit(); /*a:2:{s:76:"D:\wamp3\wamp64\www\lieliu\public/../application/index\view\index\about.html";i:1526019708;s:27:"./template/indexlayout.html";i:1526019982;}*/ ?>
 <!doctype html>
 <html lang="en">
 <head>
@@ -47,33 +47,7 @@ body {
 }
 
 
-.item{ 
-  
-    margin-right: 35px;
-    -webkit-box-shadow: 0 1px 5px #ccc;
-    box-shadow: 0 1px 5px #ccc;
-    margin-bottom: 35px;
-    }
-  .sign{
-   position:relative;
-  }
-.mask {   
-  position: absolute;  
-   width: 100%;  
-   height: 100%;   
-   text-align: center;  
-   background: #000;
-   opacity: 0;
-   top:0;
-  }
-.sign:hover .mask {
-   -webkit-transition: all 300ms ease-out;
-    -moz-transition: all 300ms ease-out;
-    -o-transition: all 300ms ease-out;
-    transition: all 300ms ease-out;  
-    opacity: .5;
-    cursor:pointer;
- }
+
 
 
 </style>
@@ -91,7 +65,7 @@ body {
       <li class="nav-item ">
         <a class="nav-link p-md-4" href="<?php echo url('customer/index/index'); ?>">充值</a>
       </li>
-      <li class="nav-item active">
+      <li class="nav-item ">
         <a class="nav-link p-md-4" href="<?php echo url('tutorial'); ?>">教程</a>
       </li>
       <li class="nav-item ">
@@ -107,34 +81,17 @@ body {
 
 
 
-<div style="width:100%;height:500px;">
-<img src="/static/images/banner.png" style="width:100%;max-height:100%;" alt="" />
-</div>
-
 <div class="container">
-<div class="row">
-<?php if(is_array($video) || $video instanceof \think\Collection || $video instanceof \think\Paginator): $i = 0; $__LIST__ = $video;if( count($__LIST__)==0 ) : echo "" ;else: foreach($__LIST__ as $key=>$vo): $mod = ($i % 2 );++$i;?>
-<div class="">
-	<div class="item">
-	<div class="sign" style="width:100%;">
-	 <?php echo $vo['path']; ?>
-   <!--   <div class="mask text-white d-flex align-items-center justify-content-center">
-        <span class="fa fa-play fa-3x"></span>
-     </div> -->
-	</div>
-	<div class="text-center">
-	<h4 class="my-2">xxxxxxxxx</h4>
-	</div>
-	</div>
+
+<h5 class="text-center mb-3">三板斧商学院</h5>
+<p>
+三板斧是一家致力于为中小企业提供最优质的电商教育和服务的公司，致力于为电商企业及传统企业电商转型，提供淘系电商培训、跨境电商培训、电商孵化、电商视觉、电商技战术等服务。曾荣获 2015年度阿里巴巴数据学院年度最佳机构、2016年度淘宝大学全国最具人气奖培训机构。
+
+是集电子商务基础性研究、技术开发系统集成、网络营销、流 通渠道等多种业务于一体的高新技术公司，我们的宗旨是帮助更多的中小卖家，我们始终坚持用户至上 用心服务于客户，坚持用自己的服务去打动客户 。
+</p>
+
 
 </div>
-<?php endforeach; endif; else: echo "" ;endif; ?>
-
-</div>
-
-</div>
-
-
 	
 	
 

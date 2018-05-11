@@ -6,9 +6,16 @@
 
 	<link rel="stylesheet" href="https://cdn.bootcss.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
 	<link href="//netdna.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
+
+    <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
 	<title>三板斧</title>
 </head>
 <style>
+a{
+  color:#000 ;
+  text-decoration:none !important;
+}
 #mynav .nav-item a:hover,.active>a{
 	background:#d9363a;
 	color:#fff !important;
@@ -80,15 +87,12 @@ body {
 
 <footer class="footer text-center text-truncate" >
 <ul id="fot" class="list-inline ">
-<li class="list-inline-item">三板斧</li>
-<li class="list-inline-item">淘宝引流</li>
-<li class="list-inline-item">视频教程</li>
-<li class="list-inline-item">联系我们</li>
-<li class="list-inline-item">友情链接</li>
-<li class="list-inline-item">关于我们</li>
-<li class="list-inline-item">网站地图</li>
-<li class="list-inline-item">诚招代理</li>
-<li class="list-inline-item">微商科员</li>
+<li class="list-inline-item"><a href="{:url('index/index')}">三板斧</a></li>
+<li class="list-inline-item"><a href="{:url('customer/index/index')}">淘宝引流</a></li>
+<li class="list-inline-item"><a href="{:url('index/tutorial')}">视频教程</a></li>
+<li class="list-inline-item"><a href="{:url('index/contact')}">联系我们</a></li>
+<li class="list-inline-item"><a href="{:url('index/about')}">关于我们</a></li>
+<li class="list-inline-item"><a href="{:url('index/help')}">电商干货</a></li>
 </ul>
 
 技术支持：中山掌门人网络科技有限公司<a class="text-white" href="http://www.zszmr.com">ZSZMR </a>
@@ -102,5 +106,10 @@ body {
 <script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
 <script src="https://cdn.bootcss.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>	
+<script src="/static/js/wow.min.js"></script>
+<script type="text/javascript">
+ new WOW().init();
+</script>
+
 </body>
 </html>
