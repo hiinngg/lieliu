@@ -273,7 +273,7 @@ export default {
         return {
          link:this.link,
          date: (mydate.getTime())/1000,
-         keywords:keywords?keywords:this.$refs.livetask.period,
+         keywords:keywords?keywords:this.$refs.livetask.period.join(),
          deeptime:this.deeptime,     
          viewtime:this.viewtime,     
          mydeep:this.mydeep,

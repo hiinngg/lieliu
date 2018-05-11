@@ -215,7 +215,7 @@ export default {
          link:this.link,
            live:think.link,
          date: (mydate.getTime())/1000,
-         keywords:this.$refs.livetask.period,
+         keywords:this.$refs.livetask.period.join(),
          deeptime:this.deeptime,     
          viewtime:this.viewtime,     
          mydeep:this.mydeep, 
